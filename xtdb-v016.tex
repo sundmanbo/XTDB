@@ -18,6 +18,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
 \usepackage{graphicx,subfigure}              % with figures
+
 % sometimes needed to have pdf files 
 \pdfsuppresswarningpagegroup=1
 \topmargin -10mm
@@ -27,10 +28,12 @@
 \textheight 220mm
 \parskip 2mm
 \parindent 3mm
-%\pagestyle{empty}
+\usepackage{framed}
 \usepackage{xcolor}
 \usepackage[normalem]{ulem}
+%\pagestyle{empty}
 % end of XML tag
+
 \newcommand\eoxml{/\hspace{-4pt}>}
 
 %footnote using capital letter
@@ -54,7 +57,7 @@
 
   as proposed by
 
-  Scientific group Thermodata Europe
+  Scientific group Thermodata Europe (SGTE)
 
 %  Bo Sundman, Tachi Abe, Brandon Backlund, Qing Chen, Shuanglin Chen,
 %  Nathalie Dupin, Bengt Hallstedt, Aur{\'e}lie Jacob, Ursula
@@ -67,65 +70,63 @@
 
 \end{center}
 
-I put my name first to take the blames and Fabio at the end as the
-project manager.
+{\bf Based on paper submitted to Calphad~\cite{25xtdb}}
 
 \newcommand{\bosse}[1]{{\color{magenta} #1}}
 
-\bosse{Correct and add text by defing a newcommand with in your own color!}
+If you want to correct or propose changes please use these LaTeX facilites:
 
-\newcommand{\avdw}[1]{{\color{green} #1}}
+\bosse{Correct and add text by defing a newcommand with in your own color!}
 
 \sout{Use sout to delete text without removing it}
 
-{\bf The examples are  not updated.}
-
 \section{Introduction}
 
-This is the official document defining the XTDB format, \today.
+This is the official document defining the XTDB format, last update
+\today.  It is based on a format called TDB used since when SGTE
+developed the 1991 unary database~\cite{91Din}.  This unpublished
+document is available at https://gtihub.com/sundmanbo/XTDB.
 
-It is based on a format called TDB used since when SGTE developed the
-1991 unary database~\cite{91Din}.  All changes are listed in
-Appendix~\ref{sec:changes}
+All changes of XTDB after versions 0.1.6 are listed in Appendix~\ref{sec:changes}
 
-The following text is a definition of an XTDB format~\cite{XTDB} based
-on the eXtesible Markup Language (XML)~\cite{XML} for thermodynamic
-databases using on Calphad models.  It is recommended by the
-Scientific Group Thermodata Europe (SGTE)~\cite{SGTE} for use by
-software for use in all kinds of applications using thermodynamic data
-for materials and processes.  Any questions or suggestions for
-proposals for changes should be directed to SGTE.
+The following text is a the current version of the XTDB format
+published~\cite{25xtdb} and is based on the eXtesible Markup Language
+(XML)~\cite{XML}.  It is intended for thermodynamic databases based on
+Calphad models and recommended by the Scientific Group Thermodata
+Europe (SGTE)~\cite{SGTE} for use by software in all kinds of
+applications requiring thermodynamic data for materials and processes.
 
 \subsection{How this document is organized}
 
-In section~\ref{sec:tags} all proposed XTDB tags and attributes are
-listed with a short explanation.  In section~\ref{sec:attributes} a
-more detailed explation are given of some tags and attributes and
-section~\ref{sec:points} has a list of things to consider.
+In section~\ref{sec:tags} all proposed XTDB tags (or elements), and
+their attributes are listed with a short explanation.  In
+section~\ref{sec:attributes} a more detailed explation are given of
+some tags and attributes and section~\ref{sec:points} there is a list
+of things to consider.  In this document a tag name will be written in
+{\bf bold} and an attribute name will be written in {\em italics}.
+
+An XTDB file must use the ASCII character set.  The length of a tag
+and its attributes (excluding nested tags) must not exceed 2000
+characters.
 
 In the Appendix~\ref{sec:examples} there are several examples of tags
 and attributes, in Appendix~\ref{sec:modelapp} an extensive list of
-model tags and their attributes.  In Appendix~\ref{sec:partags} there
-aee explanations how some thermodynamic models, such as EBEF in
-Appendix~\ref{sec:ebef}, have been integrated in the XTDB format using
-wildcard feature.
+model tags and their attributes.  Each software can have its own {\bf
+  ModelDescription} tag.  In Appendix~\ref{sec:partags} there aee
+explanations how some thermodynamic models, such as EBEF in have been
+integrated in the XTDB format using wildcard feature.
 
 In Appendix~\ref{sec:complete} the complete XTDB file for the binary
 Al-C and Al-Li are listed and in Appendix~\ref{sec:changes} all
-changes and additions to this proposal from earlier versions together
-will be listed.
+changes and additions to this proposal from earlier versions will be
+listed.
 
 There is no schema defined for XTDB but it is expected that
 organisations maintaining large databases for thermodynamic
-applications will develop their own software based on XML schema for
-internal verification of the databases and this will be able to read
-XTDB files as well as generate subsets using the XTDB format.
-
-In the text below a tag name will be written in {\bf bold} and an
-attribute name will ne written in {\em italics}.  An XTDB file must
-use the utf8 character set (or ASCII? What about Swedish letters
-{\aa}, {\"a} etc.?  The length of a tag and its attributes (but not
-  nested tags) must be less than 2000 characters.
+applications will develop their own software based on an XML schema
+for internal verification of the databases and such software will be
+able to read XTDB files as well as generate subsets using the XTDB
+format.
 
 \subsection{The basic structure of an XTDB file}
 
@@ -148,9 +149,7 @@ be split on several files.  The {\bf Defaults, DatabaseInfo} and {\bf
   AppendXTDB} tags and all {\bf Element, Species} and {\bf Phase} tags
 must be present in the primary XTDB file.
 
-\newpage
-
-\section{The XTDB-v0.1.6 tags and attributes with short explanations}\label{sec:tags}
+\section{The XTDB tags and attributes with short explanations}\label{sec:tags}
 
 XML is case sensitive.  In XTDB the name of a tag or attribute starts
 with a capital letter.  If it consists of two or more parts, such as
@@ -170,12 +169,94 @@ will appear several times in the XTDB file to provide the data.  An
 exclamation marek ``!M'' is indicated for the mandatory attributes of
 a tag.
 
-\subsection{The system XTDB tags}\label{sec:first}
+\subsection{The Gibbs energy function}\label{sec:gfun}
+
+The XTDB file should be able to describe all data needed to calculate
+the Gibbs energy for system with several phases using this expression:
+\begin{eqnarray}
+  G &=& \sum_{\alpha} \aleph^{\alpha} ~ G^{\alpha}_M(T,P,y^{\alpha}_{s,i}) \label{eq:gphase}\\
+  G^{\alpha}_M &=& \sum_I \Pi_{I_s}(y^{\alpha}_{s,i}) ~^{\circ}G^{\alpha}_I(T,P) - T~^{\rm cfg}S^{\alpha}_M(y^{\alpha}_{s,i}) + \nonumber\\&&
+  ~^EG^{\alpha}_M(T,P,y^{\alpha}_{s,i}) + ~^{\rm phy}G^{\alpha}_M(T,P,y^{\alpha}_{s,i}) \label{eq:gmodel}
+\end{eqnarray}
+where $\aleph^{\alpha}$ is the number of moles formula unit of
+$\alpha$ and $G^{\alpha}_M$ is the Gibbs energy of $\alpha$ per mole
+formula unit as a function of $T,P$ and the constituent fraction $i$
+in sublattice $s$, $y^{\alpha}_{s,i}$.  The number of constituents in
+a phase can be much larger than the number of components of the
+system.  In the term $\Pi_{I_s}(y^{\alpha}_{s,i})~^{\circ}G^{\alpha}_I$ the
+$I$ indicates an endmember of $\alpha$ representing a possible
+``compound'' with fixed composition, $\Pi_I(y^{\alpha}_{s,i})$ is the
+probability of the compound I and $~^{\circ}G^{\alpha}_I$ its Gibbs
+energy.  In a solution it is the contribution from this endmember to
+the total Gibbs energy of the phase.  $~^{\rm
+  cfg}S^{\alpha}_M(y^{\alpha}_{s,i})$ is the configurational entropy and
+$~^EG^{\alpha}_M(T,P,y^{\alpha}_{s,i})$ the contributions from
+interactions of the constituents mixing on the same sublattice of the
+phase.  If a single endmember represents the constitution of the
+$\alpha$ phase then $^{\rm cfg}S^{\alpha}_M = ~^EG^{\alpha}_M = 0$.
+
+The term $~^{\rm phy}G^{\alpha}_M(T,P,y^{\alpha}_i)$ is the
+contribution from various physical models, for example magnetism.
+This contribution can also be split into a sum of the contributions to
+each endmember and excess terms.  Most physical models have parameters
+which depend on the constitution and sometimes also $T$ and $P$.  They
+are discussed in section~\ref{sec:parametertag}.  If the phase has
+charged constituents there is an extra condition for equilibrium that
+the phase is electrically neutral.
+
+%\begin{eqnarray}
+%\end{eqnarray}
+
+\subsection{Thermodynamic software using the XTDB}\label{sec:software}
+
+The TDB file has been used by several thermodynamic softwares but with
+various flavours making it difficult to exchange databases.  It is the
+hope that the XTDB format will make it easier to handle slight
+differences between such software and extend the number of models used
+more easily.  In particular the set of new models introduced in the
+new unary database which will extend the Calphad modeling down to
+$T=0$~K.  It is expected that the use of TDB files will continue in
+parallel for many years.
+
+Each software will have its own {\bf Modeldescripton} tags, in
+particular using different {\em MPID} attributes for the parameters
+but any now model should be communication with other software
+developers to make it easier to handle new models in different
+software.
+
+\subsubsection{Software modifications of names, {\em Id}}
+
+In the TDB file there were strict limits on the length of names
+(i.e. {\em Id}) for different things.  In the XTDB file there are no
+such restrictions but it is recommended not to use more than 24
+characters in any {\em Id}.  However, a software reading an XTDB file
+may adjust the length of any {\em Id} according to its own preference
+(and the XTDB standard).  Such changes should be displayed when
+reading the XTDB file and saved in a way the user can retrieve a list
+of all {\em Id}s changed.
+
+\subsubsection{Reading the XTDB file}
+
+There are several ways of extracting the information from the XTDB
+file into a thermodynamic software.  Using an XML software tool this
+will most likely make the whole database available for querys from the
+thermodynamic software but some software may prefer to read the XTDB
+file itself and will probably have to read and rewind some or all
+files several times in order to extract the data for a thermodynamic
+system selected by a user.
+
+
+\newpage
+
+\subsection{The basic XTDB tags}\label{sec:first}
 
 The {\bf AppendXTDB} tag makes it possible to separate a large XTDB
 database on several files.  There are some restrictions which types of
 tags can be used in such files, for example the tags for {\bf Element,
   Species, Phase} are not allowed in AppendXTDB files.
+
+In this and later tables the ``!M'' mark at the far left side of an
+attributes means it is mandatory.
 
 \begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
   Tag & Attributes & Explanation\\\hline
@@ -188,15 +269,15 @@ XTDB    &         & Containing XML tags for an XTDB database.\\
   
 Defaults & & Optional tag to provide default values of attributes in
              different XML tags and some other things.  Some software, as
-             specified XTDB tag,  may have some ``mandatory'' defaults
+             specified in the XTDB tag,  may have some ``mandatory'' defaults
              set in the {\bf Models} tag by the software specified in the
              {\bf XTDB} tag.\\
          & LowT & Default value of low $T$ limit for {\bf TPfun} or 
                  {\bf Parameter} tags.\\
          & HighT & Default value of high $T$ limit for {\bf TPfun} or 
                  {\bf Parameter} tags.\\
-         & Bibref & Default bibliographic reference for parameters. \\
-         & Elements & For example ``VA'' and/or ``/-'' (the electron).\\
+         & Bibref & Default bibliographic reference a parameter. \\
+         & Elements & For example ``VA'' or ``/-'' (the electron).\\
          & RKorder & see section~\ref{sec:rkorder} \\
          & TernaryXpol & see section~\ref{sec:toop} \\
          & GlobalModel & Any model applicable to the whole database,
@@ -209,30 +290,39 @@ DatabaseInfo & & Optional tag with information about the database\\
 AppendXTDB & & Optional tag with additional file for the XTDB database.  
               It should contain XTBD tags but some tags are forbidden,
               see above.\\
-         & Models & The {\bf Model} tag with MPID specifications.\\
-         & Parameters & With mainly {\bf Parameter} tags.\\
-         & TPfuns & With all {\bf TPfun} tags which may have to be rewinded and
-                    read several times.\\
-         & Bibliography & With bibliographic tags.\\
-         & Miscellaneous & Whatever the database manager wishes.\\\hline
+         & Models & File with {\bf ModelDescription} tag.\\
+         & Parameters & File with mainly {\bf Parameter} tags.\\
+              & TPfuns & File with mainly {\bf TPfun} tags which may have to
+              be rewinded and read several times.\\
+         & Bibliography & File with bibliographic tags.\\
+         & Miscellaneous & File with whatever the database manager needs.\\\hline
 \end{tabular}
 
-Note that in this and later tables the exclamation mark at the far
-left side of some attributes means they are mandatory.
+These tags and the {\bf Element, Species} and {\bf Phases} with its
+nested tags must be on the primary XTDB file.
 
 \newpage
 
 \subsection{The element and species tags}\label{sec:elements}
 
-All constituents of the phases must be specified as {\bf Species} and
-the species are aggregates of one or more {\bf Element} with fixed
-stoichiometric ratios.  The vacancy, denoted ``VA'', is considered an
-element which must have activity 1 at equilibrium but cannot have a
-fixed amount.  The electron ``/-'' is not considered as an element but
-can be used as a fixed charge on a {\bf Species}.  A phase with
-charged species must have an extra internal software condition that
-the phase is electrically neutral at equilibrium.
+A XTDB database contains data releted to its {\bf Element} tags.  The
+{\em Id} attributes of the {\bf Element} and the {\bf Species} tags
+are used in the {\bf Constituent} tags for the {\bf Phase} tags in the
+database, as explaind in section~\ref{sec:phase}.
 
+A {\bf Species} tag define a chemical species based on the elements,
+possibly including an electric charge,
+
+Both {\bf Elements} and {\bf Species} can be used as constituents of
+phases by including their {\em Id} attribute in {\em List} attribute
+the {\bf Constituents} tag of a {\bf Phase} tag.
+
+The vacancy, denoted ``VA'', is considered an element which must have
+activity equal to unity at equilibrium but cannot have a fixed amount.
+The electron, denoted``/-'', is not considered as an element but can
+be used as a fixed charge on a {\bf Species}.  A phase with charged
+species must have an extra internal software condition that the phase
+is electrically neutral at equilibrium.
 
 \begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
   Tag & Attributes & Explanation\\\hline
@@ -248,20 +338,16 @@ the phase is electrically neutral at equilibrium.
                          database may not have any data for this phase. \\
 !M        & Mass   &  Mass in g/mol\\
           & H298   &  Enthalpy difference between 0 and 298.15~K 
-                      in the reference state.  Not used in equilibrium
-                      calculations. \\
+                      in the reference state.\\
           & S298    &  Entropy difference between 0 and 298.15~K in 
-                       the reference state.  Not used in equilibrium
-                       calculations\\\hline
+                       the reference state.\\\hline
 
   Species & & Specifies a chemical species used as a constituent of phases.  
-                        The elements, except the electron, are also species.\\
-!M        & Id        & Species name max 24 letters and some special
-                         characters, see section~\ref{sec:speciesID}.\\
-!M        & Stoichiometry & One or more element {\em Id} each followed by 
-                        an unsigned real or two integers separated by a ``/'' 
-                        representing the stoichiometric ratio,
-                        see section~\ref{sec:speciesSS}.  See also
+              The elements, except the electron, are also species.\\
+!M        & Id        & Species name, see below.\\
+!M        & Stoichiometry & One or more element {\em Id}s each followed by 
+                        an stoichiometric factor, 
+                        see section~\ref{sec:speciesSS} and
                         Appendix~\ref{sec:elementexample}.\\
           & MQMQA     & For a constituent in the MQMQA model.  See 
                         section~\ref{sec:mqmqa}.\\
@@ -271,26 +357,33 @@ the phase is electrically neutral at equilibrium.
 \end{tabular}
 
 There are strong feelinga about upper and lower case for elements and
-sometimes phases.  But in fact the elements are only used to specify
-the stoichiometry of species and that is not a very big thing.  The name
-of species, i.e. their {\em Id} , is case insensitive and the species
-are the constituents of the phases.
+sometimes also for phases.  But in the old TDB file they were case
+insensitive and this has been kept for the XTDB file.
 
 The {\em Id} attribute of a {\bf Species} must start with a letter A-Z
 and can contain letters, digits 0-9, the special characters plus,
 ``+'', minus, ``-'' and the slash ``/''.  The {\em Id} must not be
 abbreviated when used in the {\em List} attribute of a {\bf
-  Constituents} tag or in the {\em Id} of a {\bf Parameter} tag.
+  Constituents} tag or in the {\em Id} of a {\bf Parameter} tag or in
+any other tag.
 
-Species names are important not only for listing and plotting results
-because constituents, i.e. the species, can be used when setting
-conditions for a equilibrium calculation.  The elements are
-automatically entered as species with a case insensitive {\em Id}.
+The {\em Id} of a {\bf Species} is important because as constituents
+of a phase they can be used by the thermodynamic software when setting
+conditions for a equilibrium calculation or for listing and plotting
+results.  The elements are automatically entered as species with a
+case insensitive {\em Id}.
 
 An ion, for example an iron species with positive charge can have the
 stoichiometry ``FE/+2''.  One can create a species for an electron
 using the stoichiometry ``VA/-1'', or a species for a ``hole'' with
-stochiometry ``VA/+1''
+stochiometry ``VA/+1''.  It is recommended that the {\em Id} of an ion
+includes ``+'' or ``-'' but it is not necessary.
+
+In some software the constituents are defined for each phase
+separately and have no separate identification but in other software
+the species name, i.e. {\em Id} can be used for setting conditions and
+used when listing and plotting.  The XTDB format must not limit this
+facility.
 
 \newpage
 
@@ -298,10 +391,12 @@ stochiometry ``VA/+1''
 
 The thermodynamic model parameters are usually simple mathematical
 expressions but many of them contain common parts refering to the same
-element.  In order to reduce this complexity one can enter a
-mathematical expression as a {\bf TPfun} tag and use the {\em Id} of
-this {\bf TPfun} inside the {\em Expr} attribute of several {\bf
-  Parameter} tag or other {\bf Tpfun} tags,.
+element.  In order to avoid adding numbers or repeating the same
+numbers many times one can enter a mathematical expression as a {\bf
+  TPfun} tag and use the {\em Id} of this {\bf TPfun} inside the {\em
+  Expr} attribute of several {\bf Parameter} tag or other {\bf Tpfun}
+tags.  It also avoid a lot of problems if the reference data for an
+element is changed.
 
 \begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
   Tag & Attributes & Explanation\\\hline
@@ -373,7 +468,7 @@ and {\bf Constituents}.
                   sublattices separated by a space.  For an example 
                   see Appendix~\ref{sec:phaseexample}\\\hline
 
-  Constituents & & One for each sublattice inside the {\bf Sublattices} tag.\\
+  Constituents & & Only inside the {\bf Sublattices} tag.\\
         & Sublattice & Cam be omitted if only one sublattice.\\
         & WyckoffPosition & Optional idenificaton of the sublattice \\
 !M      & List & Species {\em Id} in the sublattice separated by
@@ -382,7 +477,7 @@ and {\bf Constituents}.
   AmendPhase & & Optional tag inside a {\bf Phase} tag to specify 
                  for example a contribution due to a magnetic model.
                  The {\bf DisorderedPhase} tag, see~\ref{sec:models}, can
-                 also be present.\\
+                 also be nested.\\
         & Models & One or more models {\em Id}s, separated by a space, for this
                   phase.  See section~\ref{sec:models},
                   Appendices~\ref{sec:phaseexample} and
@@ -393,21 +488,22 @@ and {\bf Constituents}.
 \bigskip
 
 The {\bf Phase} tag is important because all parameters with data
-belongs to a phase and to its constituents.  The {\em Id} attribute
-must start with a letter A-Z and contain only letters, digits 0-9 and
-the underscore character.  It can be abbreviated when used in the {\em
-  Id} of a parameter.  See section~\ref{sec:parametertag}.
+belongs to a phase and its constituents.  The {\em Id} attribute must
+start with a letter A-Z and contain only letters, digits 0-9 and the
+underscore character.  It can be abbreviated for example when used in
+the {\em Id} of a parameter.  See section~\ref{sec:parametertag}.
 
 A phase with very long list of constituents (for example the gas) can
-have several {\bf Constituents} tags even if it has no sublattices.  A
-solution phase may have several different structure designations
-depending on its composition and constitutions.  Pure Au has {\em
-  StructurBericht} A1 but alloyed with Cu it can be ordered with {\em
-  StructurBericht} L1$_2$ or L1$_0$.  Some software may provide
-information of the constitution as an suffix.
+have several {\bf Constituents} tags.  A solution phase may have
+several different structure designations depending on its composition
+and constitutions.  Pure Au has {\em StructurBericht} A1 but alloyed
+with Cu it can be ordered with {\em StructurBericht} L1$_2$ or L1$_0$.
+Some software may provide information of the constitution as an
+suffix.
 
 The {\em WyckoffPosition} attribute can simplify relating the
-sublattice to data from DFT calculatiions.
+sublattice to data from DFT calculatiions.  It will normally be ignored
+by the thermodynamic software.
 
 \newpage
 
@@ -417,28 +513,32 @@ All thermodynamic data, and possibly kinetic and other physical phase
 dependent properties, are defined by the parameter tags.  They should
 be arranged after the {\bf Phase} tags or inside a {\bf BinarySystem}
 tag, see~\ref{sec:subsys}.  They can have nested {\bf Trange} tags.
-Examples in Appendix~\ref{sec:parameter
-  examples}, \ref{sec:partags} and \ref{sec:complete}.
+See examples in Appendix~\ref{sec:parameter examples},
+\ref{sec:partags} and \ref{sec:complete}.
 
 \bigskip
 \begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
   Tag & Attributes & Explanation\\\hline
 
   Parameter & & Specifies the $T, P$ expression of a model parameter for a set of constituents.\\
-!M      & Id & As in a TDB files, for example G(LIQUID,A,B:VA;2).  See also the {\bf Parameter2} tag. \\
+!M      & Id & As in a TDB files, for example G(LIQUID,A,B:VA;2), \\
       & LowT & Can be omitted if the default low $T$ limit applies.\\
-!      & Expr & Simple mathematical expression terminated by ;.  If several ranges use a {\bf Trange} tag.  See section~\ref{sec:tpfun} and \ref{sec:expr}.\\
+!M      & Expr & Simple mathematical expression terminated by ;.  If several ranges use a {\bf Trange} tag.  See section~\ref{sec:tpfun} and \ref{sec:expr}.\\
       & HighT & Can be omitted if the default high $T$ limit applies.\\
-!      & Bibref & Bibliographic reference, unless the default bibref is set.\\\hline
+!M     & Bibref & Bibliographic reference.\\\hline
 \end{tabular}
 
 The attribute {\em Id} defines the parameter as in the current TDB
-file.  It starts with a model parameter identifier (MPID), see
-Appendix~\ref{sec:mpid}, followed within parenthesis by a phase name
-(which can be abbreviated) and one or more constituents in each
-sublattice of the phase in the order of the sublattices.
+file.  It starts with a model parameter identifier (MPID), defined by
+a {\bf ModelDescription} tag, see Appendix~\ref{sec:mpid}.  For a
+Gibbs energy parameter ``G'' is used for an endmember and ``G'' or ``L''
+for an excess parameter.
 
-Constituents are given in the order of the sublattices defined by the
+The MPID is followed, within parenthesis, by a phase name (which can
+be abbreviated) and one or more constituents in each sublattice of the
+phase in the order of the sublattices and a final optional degree.
+
+The constituents are given in the order of the sublattices defined by the
 phase tag, separated by a colon, ``:''.  Constituents in the same
 sublattice, i.e.  for interaction parameters, are separated by a
 comma, ``,''.  The order of sublattices and their constituents are as
@@ -448,8 +548,8 @@ After the constituents in the last sublattice a semicolon, ``;''
 followed by a single digit, 0-9, can be used to indicate a degree.
 This degree can have different meanings in different models but is
 normally used for the power in a Redlich-Kister series, see
-section~\ref{sec:rkorder}.  If the digit is zero the semicolon and the
-digit can be omitted.
+section~\ref{sec:rkorder}.  If the degree is zero the semicolon and
+the digit can be omitted.
 
 An asterisk ``*'', also known as wildcard, see
 section~\ref{sec:wildcard}. can be used as constituent in a sublattice
@@ -457,17 +557,18 @@ indicating that the parameter is independent of the constituents in
 the sublattice.  The wildcard is an important feature of some models,
 see section~\ref{sec:ebef}.
 
-The parameters are the essential parts of the database and more
+The parameters constitute the major part of the database and several
 examples can be found in Appendix~\ref{sec:partags}.  They are
 generated from separate assessment of experimental and theoretical
-data for binary and higher order systems.  One aim of this XTDB format
-is also to provide a simple and unified way to publish and report such
-assessments.  Databases are collections of such assessment and
-database managers integrate separate assessment and sometimes modify
-some parameters for compatibility with other systems.  In addition to
-the bibliographic reference the database managers are encouraged to
-add comments of such actions within the {\bf Parameter} tag in order
-to pass on information to the next manager of the database.
+data for binary and higher order systems.
+
+One aim of this XTDB format is to provide a simple and unified way to
+publish and report parameters from such assessments.  Databases are
+collections of such assessment and database managers integrate
+separate assessment, sometimes with modifications, with other systems.
+In addition to the bibliographic reference the database managers are
+encouraged to add comments within the {\bf Parameter} tag in order to
+pass on information to the next manager of the database.
 
 \newpage
 
@@ -496,9 +597,7 @@ not not created by computers or appear from thin air.
 
 \newpage
 
-****************** unfinished below **********************
-
-\subsection{The model tags}\label{sec:models}
+\subsection{The ModelDescription tag}\label{sec:models}
 
 The XML tags for generally accepted models can be on a separate file
 and the model {\em Id} attribute is the important and used in the {\bf
@@ -506,25 +605,32 @@ and the model {\em Id} attribute is the important and used in the {\bf
 have one or more model parameter identifiers (MPID) as attributes and
 these are used in the {\bf Parameter} tag for the phases.  Models must
 be explained in a model tag with an appropriate bibliographic
-reference.  Typically the {\bf Models} tag is in an AppendXTDB file.
-See Appendix~\ref{sec:modelapp}.  The Model tag and Some currently
-used model tags are listed here.  The models normally specify one or
-more model parameter identifiers (MPIDs) used in parameters needed for
-the model.  Additional text outside the attributes can be added
+reference.  Typically the {\bf ModelDescription} tag is in an
+AppendXTDB file, for an example see Appendix~\ref{sec:modelapp}.  The
+{\bf ModelDescription} tag and currently used model tags are listed
+here.  The models have an {\em Id} and normally some attributes, {\em
+  MPIDi} which specify one or more MPID used in parameters needed for
+the model.  Additional comments outside the attributes can be added
 describing the model.
+
+The models below represent models used for a lomg time.
 
 \bigskip
 \begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
   Tag & Attributes & Explanation\\\hline
 
-  Models & & Surrounds model tags usually with an {\em Id} attribute
+  ModelDescription & & Surrounds model tags usually with an {\em Id} attribute
              used in the {\em Models} attribute of a {\bf AmendPhase} tag
-             inside {\bf Phase} tahs.  
+             inside {\bf Phase} tags.  
 
              A model usually specify one or more model parameter 
              identifiers (MPID) needed by the model.  Some models, 
              such as {\bf DisorderedPart}  must be included a tag 
-             within the {\bf AmendPhase} tag.\\\hline
+             within the {\bf AmendPhase} tag.\\
+
+    & Software & Name of software generating this tag.  Each software
+                may have its own version of model parameter identifiers
+                and may also have some unique models.  \\\hline
 
   Magnetic &  &  There are several magnetic models.\\
 !M     & Id   &  This is used in {\em Models} attribute of the 
@@ -552,121 +658,61 @@ describing the model.
   DisorderedPart & & Optional tag inside the {\bf AmendPhase} tag of an 
               ordered phase with or without order/disorder transions.
               The Gibbs energies of the ordered and disordered parts
-              of a phase are added according to eq.~\ref{eq:nosub} or
-              \ref{eq:sub} below.
-
+              of a phase are added as described in  section~\ref{sec:nodis}.
               The configurational Gibbs energy is calculated for
               the ordered part only.  \\
 
-   & Disordered & Optional attribute with the name of the disordered phase, 
-            see section~\ref{sec:nodis}.  Some software have the parameters
-            for the ordered and disordered part with the same phase name.\\
+   & Disordered & Optional attribute with the {\em Id} of the disordered phase, 
+            Some software have the parameters for the ordered
+            and disordered part using the same phase {\em Id}.\\
 
 !M  & Sum &  Number of sublattices, starting from the first sublattice in the
              ordered phase to be summed for the disordered phase
              constitution.  Optionally an extra interstitial
              sublattice can be present.\\
 
-   & Subtract & In order to use eq.~\ref{eq:sub} the the constituents on
-              the ordering sublattices must be identical and this
-              attribute must be included with the value Y.  See also
-              section~\ref{sec:dispart}. \\\hline
+   & Subtract & In order to use eq.~\ref{eq:sub} in
+             section~\ref{sec:models} the the constituents on the
+             ordering sublattices must be identical and this attribute
+             must be included with the value Y.  See also
+             section~\ref{sec:dispart}. \\\hline
 
 \end{tabular}
 
-The permutations means that a parameter which can have permutation of
-its constituents on idetical sites is stored only once in the
-database.  For example in an FCC ordered phase a parameter
+\newpage
 
-G(FCC\_4SL,FE:AL:AL:AL:VA)
-
-\noindent
-has 3 identical permutations: G(FCC\_4SL,AL:FE:AL:AL:VA),
-G(FCC\_4SL,AL:AL:FE:AL:VA) and G(FCC\_4SL,AL:AL:AL:FE:VA) which are
-not included in the database but taken care of by the software.  This
-reduce the size of the database and avoid human errors.  It requires
-that the software calculates automatcally the contribution from all 4
-permutations of the constituents of indentical sides.  There are other
-excess parameters with up to 24 permutations.
-
-The wildcard, see section~\ref{sec:parametertag} is frequently used
-for parameters of ordered phases, see Appendix~\ref{sec:wildcard},
-\ref{sec:OD} and the following sections.
-
-For a phase with the {\bf DisorderedPart} tag the Gibbs energy
-(excluding the configurational entropy) is calculated by one of these
-equations:
-\begin{eqnarray}
-G_M &=& ~^{\rm dis}G_M(x) + ~^{\rm ord}G_M(y) \label{eq:nosub}\\
-G_M &=& ~^{\rm dis}G_M(x) + ~^{\rm ord}G_M(y) - ~^{\rm ord}G_M(y=x) \label{eq:sub}
-\end{eqnarray}
-where $x$ is averaged values of $y$ for some (or all) sublattices in
-the ordered phase.  Eq.~\ref{eq:nosub} is mainly used for phaes with
-many sublattices which never disorder for example intermetallic
-phases.
-
-In order to use eq.~\ref{eq:sub} one must specify the attribute {\em
-  Subtract} (with any value).  This equation can be used for phases
-with order/disorder transitions such as FCC, BCC and HCP.  Such phases
-are stable as disordered in many systems but sometimes exhitit
-ordering.  Using eq.~\ref{eq:sub} the model parameters as ordered and
-disordered phase can be assessed separately because calculating the
-Gibbs energy of the ordered phase twice, the second time using the
-disordered fractions, and then subtracting means the ordered
-parameters will not affect the disorderd state.  For details
-see~\cite{97Ans} and~\cite{07Hal}
-
-\subsubsection{Models tags for new unary models}
-
-After long discussions the unary group has decided to use a single
-composition dependent Einstein parameter for each phase and element in
-the new unary database.  An element with its heat capacity fitted
-using several Einstein $\theta$ will have the additional $\theta$
-described by the GEIN function in the {\em Expr} attribute in the {\bf
-  Parameter} or {\bf TPfun} tag, the GEIN function is defined in
-eq.~\ref{eq:gein} in section~\ref{sec:expr}.  For multiple $\theta$
-see the Al-C example in Appendix~\ref{sec:alc}.
-
-New {\bf Model} tags may be developed and included in the XTDB file in
-order to specify new MPIDs for parameters.
+New {\bf ModelDescription} tags can be developed and included in the
+XTDB file in order to specify new MPIDs for parameters.  Some of the
+tags below represent models needed for the new unary database.
 
 \bigskip
-\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
-  Tagname& Attributes & Explanation\\\hline
+\begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
 
-    Volume & & Specifies the model for volume of a phase.\\
-!      & Id & This is used in the {\bf AmendPhase} tag.\\
-!      & MPID1 & Specifies a volume model parameter identifier
-                    (MPID) for parameters.\\
-!      & MPID2 & Specifies volume model parameter identifier
-                    (MPID) for parameters.\\
-!      & MPID3 & Specifies volume model parameter identifier
-                    (MPID) for parameters.\\
-!      & Bibref & Where the model is described.\\\hline
-
-  Einstein & & The low $T$ vibrational model.\\
-!      & Id & This Id is used in {\bf AmendPhase} tag.\\
-!      & MPID1 & Specifies the Einstein model parameter identifier (MPID)
+  Einstein & & The low $T$ vibrational model, see section~\ref{sec:gein}.\\
+!M      & Id & This Id is used in {\bf AmendPhase} tag.\\
+!M      & MPID1 & Specifies the Einstein model parameter identifier (MPID)
           for parameters.\\
-!      & Bibref & Where the model is described.\\\hline
+!M      & Bibref & Where the model is described.\\\hline
 
-  Liquid2state & & The liquid 2-state model.\\
-!      & Id & This Id is used in {\bf AmendPhase} tag.\\
-!      & MPID1 & Specifies liquid model parameter identifier (MPID)
+  Liquid2state & & The liquid 2-state model, see section~\ref{sec:liq2state},\\
+!M      & Id & This Id is used in {\bf AmendPhase} tag.\\
+!M      & MPID1 & Specifies liquid model parameter identifier (MPID)
          for parameters.\\
-!      & MPID2 & Specifies Einstein model parameter identifier (MPID)
+!M      & MPID2 & Specifies Einstein model parameter identifier (MPID)
          for parameters.\\
-!      & Bibref & Where the model is described.\\\hline
+!M      & Bibref & Where the model is described.\\\hline
 
   EEC & & Specifies that the Equi-entropy model applies to the database.
-          This must be implemented in the software.  The liquid 
+          See section~\ref{sec:eec}.  The liquid 
          {\bf Phase} tag must also have the {\em State} attribute equal to L. \\
-!      & Id     & has the value EEC.\\
-!      & Bibref & Where the model is described.\\\hline
-
+!M      & Id     & has the value EEC.\\
+!M      & Bibref & Where the model is described.\\\hline
 \end{tabular}
 
-\subsubsection{Ternary extrapolation methods}\label{sec:toop}
+\newpage
+
+\subsection{Ternary extrapolation methods}\label{sec:toop}
 
 Some models are concern a subset of the constituents of a phase and
 they must be specified explicitly and cannot be included in the {\bf
@@ -680,8 +726,8 @@ The Muggianu method is often the default ternary extrapolation model
 but there are other extrapolation methods to be considered and they
 must be integrated in the XTDB format.
 
-\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
-  Tagname& Attributes & Explanation\\\hline
+\begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
 
   TernaryXpol & & A subset of 3 constituents for which do not use the default
               extrapolation method of the binary compositions inside
@@ -709,6 +755,8 @@ Toop elemet and the third binary, Fe-Mn, use the Muggianu
 extrapolation method.  The {\em Cmode} attribute is a bit particular
 and explained further in Appendix~\ref{sec:ternaryxpol}.
 
+\newpage
+
 \subsection{Organizing the data and software specific attributes}\label{sec:subsys}\label{sec:soft}\label{sec:last}
 
 Each parameter in the database has a bibliography attribute and
@@ -728,33 +776,20 @@ XTDB file has no influence on the way the software handles the
 parameters.
 
 \bigskip
-\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
-  Tagname& Attributes &  Explanation\\\hline
-
-  UnarySystem  && Encloses a set of {\bf Parameter} tags for the unary data.
-          There can be parameters for the unary also outside this tag.\\
-!          & Elements & Constituent for the parameters in the system.\\
-!          & Bibref & Main bibliographic references.\\\hline
+\begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
+  Tag & Attributes &  Explanation\\\hline
 
   BinarySystem  && Encloses a set of {\bf Parameter} tags for different
           phases of a binary system.
           There can be parameters for the binary outside this tag.  It may
           have a software dependent attribute to calculate the binary.\\
-!          & Species & Two constituents for the parameters 
+!M          & Species & Two constituents for the parameters 
                        separated by spaces.  \\
 !          & Bibref & Main bibliographic references.\\
           & CalcDia & Software specific commands to calculate the binary
                        phase diagram.  The software is specified in the
                        {\bf XTDB} tag.\\\hline
 
-  TernarySystem  && Encloses a set of {\bf Parameters} tags for different
-           phases for a ternary system.
-          There can be parameters for the system outside this tag.\\
-!          & Species & Constituents for the parameters in the system 
-                       separated by spaces.\\
-!          & Bibref & Main bibliographic references.\\
-          & CalcDia & Software specific commands to calculate some particular
-                     ternary diagram for the system.\\\hline
 \end{tabular}
 
 \bigskip
@@ -791,6 +826,8 @@ instructions how to calculate a phase diagram or some other diagram.
 This tag can be used also in an encrypted database for the systems
 that are assessed in the database.
 
+\newpage
+
 \subsection{Adding new XML tags or attributes}
 
 The XTDB tags listed above is intended to cover all the basic modeling
@@ -800,15 +837,19 @@ will be new tags and attributes added in the future.  But such
 additions can, with some care, be integrated in XTDB files without
 corrupting the data and information already established.
 
-There may be a need for conditional tag in the XTDB file.  Maybe this
-can be implemented in a software independent way, but temporarily this
-can be handled by software specific tags, for example if certain
-actions should be taken depending on the user selection of elements ot
-species.
+A new tag or attribute should only use letters A-Z, numbers 0-9.  The
+first letter should be capital and any following words should also be
+captial as in {\em NumberOf} or {\bf DisorderedPart}.
+
+There may be a need for conditional tag in the XTDB file for example
+to select a subset of phases.  Maybe this can be implemented in a
+software independent way, but temporarily this can be handled by
+software specific tags, for example if certain actions should be taken
+depending on the user selection of elements ot species.
 
 \bigskip
-\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
-  Tagname& Attributes &  Explanation\\\hline
+\begin{tabular}{|p{0.04\textwidth} p{0.15\textwidth} p{0.78\textwidth}|}\hline
+  Tag & Attributes &  Explanation\\\hline
 
   IfSpecies & & Depending on the species selected by user\\
 !      & Species & If one (or more enclosed by parenthesis) species
@@ -821,91 +862,39 @@ species.
   
 \end{tabular}
 
-This is an tentative tag which has to be elaborated.
+This is just a suggestion which has to be elaborated.
 
-An example of the use of this clause consider that if Fe and Ti and C
-have been selected then the software should automatically create two
-composition sets for the FCC phase to describe the cubic carbide
-(maybe with a slightly modified name).  The same may be useful to
-provide for an ordered L1$_2$ phase when reading data for the Al-Ni
-system from an XTDB file.
+\newpage
 
 \section{Further explanation of XTDB tags and attributes}\label{sec:attributes}
 
-Note that the XML tags and attributes are case sensitive whereas the
-names i.e. {\em Id} of species, functions, phases and other identifiers
-are {\bf case insensitive} as in the TDB file.  For example a chemical
-species written FE, Fe, fe and fE is the same element.  Thus CO is
-Cobalt and to specify the stoichiometry of carbonmonoxide one must use
-C1O.
+Some additional explanation of the XTDB format is listed here.  This
+text is still preliminary and may be correted and changed.
 
-Presenting information and results for a user still have limitation
-imposed by the size of th computer screen or peper width and it is
-difficult to format nice output with very long names of functions or
-species or phases.  For a human it is also complicated to handle long
-names, even if they may be abbreviated.
+\subsection{About characters and abbreviateion of {\em Id}}\label{sec:lettercase}
 
-\subsection{About UPPER and lower characters, abbreviations and forbidden characters}\label{sec:lettercase}
-
-In an TDB file UPPER and lower case letters are treated as identical.
-In XML the tags and attributes are case sensitive.  In this proposal
-all letters A-Z of the attributes, for example the name of elements,
-species and phases, the UPPER and lower case letters will be
+In an TDB file UPPER and lower case letters were treated as identical
+and in XML the tags and attributes are case sensitive.  In this
+proposal all letters A-Z of the attributes, for example the {\em Id} of
+elements, species and phases, the UPPER and lower case letters will be
 considered as identical.
 
-In particular the characters ``(`` and ``)'' are not allowed in the
-{\em Id} attribute of {\bf Species, Phase} or {\bf TPfun} tags.  This
-is necessary to simplify the parsing the {\em Id} attribute of the
-{\bf Parameter} tag and to simplify interpreting commands in the user
-interface of the software.  The allowed characters are explained the
-the sections~\ref{sec:elements} and \ref{sec:phase}.
-
-In some software using a command line user i/f one can use a command:
-
-\vspace{-3mm}
-\begin{verbatim}
-set condition y(gas,co2)=0.1
-\end{verbatim}
-\noindent
-in order to specify that the gas phase should have the constituent
-fraction of CO$_2$ equal to 0.1.  It could be complicated if both the
-phase name and species name can contain parenthesis and be
-abbreviated.
+The limited set of characters allowed in {\em Id} are listed for each
+case.  The characters ``(`` and ``)'' and colon ``:'' and semicolon
+``:'' and comma ``,'' are not allowed in the {\em Id} attribute of {\bf
+  Element, Species, Phase} or {\bf TPfun} tags.
 
 It is not allowed to abbreviate {\bf Species} {\em Id} and {\bf TPfun}
-{\em Id}.  Note that the species {\em Id} is normally not its
-stoichiometric formula and rather short names are recommended for
-complex molecules.  In general ``(`` and ``)'' are not allowed in any
-{\em Id} attribute except for {\bf Parameter}.
+{\em Id} when used in other tags.  Note that the species {\em Id} is
+normally not its stoichiometric formula and rather short {\em Id} are
+recommended for complex molecules.
 
 Abbreviation of {\bf Phase} {\em Id} is allowed because there may be
-many variants of almost the same phase..  Phase identification can be
-very complex with the attributes {\em StructurBerict,
-  PearsonSymbol} or {\em SpaceGroup} can be provided in separate
-attributes such in the {\bf CrystalStructure} tag.  But to identify
-the phase in a parameter in the XTDB file the {\em Id} is used.
+many variants of almost the same phase.  Each part between the
+underscore characted can be abbreviated separately, thus two phases
+MONOCLINIC\_A and MONOCLINIC\_B can be abbreviated as M\_A and M\_B.
 
-The rule for abbreviation of the {\em Id} is that any part of a phase
-name starting with an underscore can be abbreviated separately, thus
-two phases MONOCLINIC\_A and MONOCLINIC\_B can be abbreviated as M\_A
-and M\_B.
-
-\subsection{The Species and its attributes}\label{sec:speciesID}
-
-The species are the constituents of phases.  A species name (i.e. the
-{\em Id} attribute) is {\bf case insensitive} and must start with
-letter A-Z and can contain letters, digits and the special characters
-``\_'', ``/'', ``-'' and ``+''.  It must not be abbreviated when used
-as constituent in tags and attributes such as {\bf Phase, Parameter}
-etc. 
-
-In some software the constituents are defined for each phase
-separately and have no separate identification but in other software
-the species name, i.e. {\em Id} can be used for setting conditions and
-used when listing and plotting.  The XTDB format must not limit this
-facility.
-
-\subsubsection{Species stoichiometry}\label{sec:speciesSS}
+\subsection{Species stoichiometry and properties}\label{sec:speciesSS}
 
 The species stoichiometry is a sequence of one or more chemical
 element names, each followed by a real number specifying its
@@ -913,7 +902,7 @@ stoichiometric ratio.  Following the TDB standard a chemical element
 with a two letter name does not need a stoichiometric ratio equal to
 unity, for example MGO for MG1O1.  A stoichiometry of unity at the end
 can also be omitted.  Stoichiometric fractions can be specified as
-AlO3/2 or by real numbers such as AlO1.5 but avoid numbers such as
+AlO3/2 or by real numbers such as AlO1.5.  But avoid numbers such as
 0.333333, use 1/3.
 
 No grouping using parenthesis are allowed when specifying the
@@ -921,171 +910,143 @@ stoichiometry, for example use AL2S3O12, not Al2(S1O4)3.  It may not
 be very elegant but computers do not bother about nice formatting.
 
 \subsubsection{MQMQA attribute}\label{sec:mqmqa}
-The {\em MQMQA} attribute should contain two or more chemical element
-names separated a comma or a sublattice separator ``:'' and followed
-by equal number of unsigned reals representing the bond fractions, For
-example:
 
-  $<$Species Id="LA/F"    MQMQA="LA/F     6.0 2.0 2.4" $\eoxml$
+This is special for the constituents of the MQMQA phase.  These
+constituents represent clusters, also known as ``quads'', with
+electrically neutral constituents with one or two cations and one or
+two anions.  The constituents of an MQMQA liquid in a FactSage DAT
+file, known as quadruplets or ``quads'' are defined as in the example
+below:
 
-  $<$Species Id="CSLA/F"  MQMQA="CS,LA/F  9.0 6.0 4.0" $\eoxml$
+\begin{framed}
+\begin{minipage}[t]{\textwidth}
+\noindent
+\vspace{-2mm}
+{\small
+\begin{verbatim}
+   1   1   5   5  6.00000000      6.00000000      6.00000000      6.00000000
+   2   2   5   5  6.00000000      6.00000000      3.00000000      3.00000000
+   3   3   5   5  6.00000000      6.00000000      2.00000000      2.00000000
+   4   4   5   5  6.00000000      6.00000000      2.00000000      2.00000000
+   1   2   5   5  3.00000000      6.00000000      3.00000000      3.00000000
+   1   3   5   5  3.00000000      6.00000000      2.40000000      2.40000000
+   1   4   5   5  3.00000000      6.00000000      2.40000000      2.40000000
+   2   3   5   5  4.00000000      3.00000000      1.33333333      1.33333333
+   2   4   5   5  4.00000000      6.00000000      2.00000000      2.00000000
+   3   4   5   5  6.00000000      6.00000000      2.00000000      2.00000000
+\end{verbatim}
+}
+\end{minipage}
+\end{framed}
+
+For the meaning of the values in this table please see the FactSage
+documentation or the detailed documentation of the implementation of
+MQMQA in the Thermochmica software~\cite{21Posch}.  The intital 4
+numbers refer to the different elements, the other are related to the
+bonds between the elements.  There is a software to convert DAT files
+to XTDB files.
+
+In the XTDB file this table will be writted as below:
+
+\begin{framed}
+\begin{minipage}[t]{\textwidth}
+\vspace{-2mm}
+\noindent
+{\small
+\begin{verbatim}
+  <Species Id="NA/CL" MQMQA="NA/CL 6 6 2.4" />
+  <Species Id="MG/CL" MQMQA="MG/CL 6 3 2.4" />
+  <Species Id="U/CL" MQMQA="U/CL 6 2 2.4" />
+  <Species Id="PU/CL" MQMQA="PU/CL 6 2 2.4" />
+  <Species Id="NAMG/CL" MQMQA="NA,MG/CL 3 6 3" />
+  <Species Id="NAU/CL" MQMQA="NA,U/CL 3 6 2.4" />
+  <Species Id="NAPU/CL" MQMQA="NA,PU/CL 3 6 2.4" />
+  <Species Id="MGU/CL" MQMQA="MG,U/CL 4 3 1.3333333" />
+  <Species Id="MGPU/CL" MQMQA="MG,PU/CL 4 6 2" />
+  <Species Id="UPU/CL" MQMQA="U,PU/CL 6 6 2" />
+\end{verbatim}
+}
+\end{minipage}
+\end{framed}
+
+Where the element numbers have been replaced by the {\em Id}s of their
+chemical symbols.  One can omitt the stoichiometry as it can be
+calculated from the MQMQA attribute.  The {\em Id} attribute does not
+have to refer to the elements but the {\em MQMQA} attribute must
+follow some strict rules.  The slash, ``/'' is used to separate
+cations from the anions, and if there are two cations or anions they
+must be seapared by a comma, ``,''.  After this there must be as many
+integers or reals as there are ions and they must be in the order of
+the ions separated by a space.  For ``quads'' with a single ion in
+each sublattice, i.e. an ``endmember'', there must be an FCC/SNN
+factor at the end, usually 2.4, i.e. there are 3 numbers.
+
+The quads are electrically neutral, an element with several valencies
+will occur in several quads with different bonds.
 
 According to the MQMQA model the cluster stoichometry is calculated as
 2.0 divided by the bond fractions.  The MQMQA species (or cluster) is
-always electrically neutral.  For MQMQA species that are endmembers
-(with one cation and one anion) a real representing the SNN/FNN ratio,
-usually 2.4, must be supplied.  See also
-Appendix~\ref{sec:elementexample}.  For MQMQA clusters the
-stoichiometry can maybe be omitted?
+always electrically neutral.  See also
+Appendix~\ref{sec:elementexample}.
 
+For MQMQA clusters the stoichiometry can maybe be omitted as it can be
+calculated from the data in the {\em MQMQA} attribute.
+
+The {\em Id} attribute is used as constituent of the phase and it does
+not have to be related to the actual elements in the species.  To
+conform with the normal use of the MQMQA model one can use a slash,
+``/'' to separate the two sublattices.
+
+In a {\em Stoichiometry} attrbute one can use the slash, ``/'',
+between two integers after the element {\em Id} to specify the
+stoichiometric factor or a real number.  For example use 4/3 rather
+than 1.333333.
 
 \subsubsection{UNIQUAC attribute}\label{sec:uniquac}
 
-For species in the UNIQUAC model.  Contains two reals representing
-area and volume of the species in that order but in unspecified units.
+This attribute is used for species with the UNIQUAC model.  Each
+molecule is a complex species but are entered as a separate species as
+there are no chemical reactions between them.  The UNIQUAC model
+calculates the configurational model using the surface area (q) and
+number of segments (r) of the molecules, specified in the UNIQUAC
+attribute.
 
-\subsection{The Expr attribute of TPfun and Parameter}\label{sec:tpfunattr}\label{sec:expr}
-
-The {\em Id} attribute of a {\bf TPfun} must start with a letter A-Z
-and may contain letters, digits and the special character ``\_''.  It
-must not be longer than 16 characters.  It must not be abbreviated
-when used in other tags.
-
-When used in an {\em Expr} attribute it does not have to be terminated
-by the hash character "\#" as in current TDB files.
-
-The mathematical expressions for $T$ and $P$ used in the {\em Expr}
-attribute in {\bf TPfun, Trange} and {\bf Parameter} are the same as
-in TDB files.  It is very restricted because some software must
-calculate first and and second derivatives with respect to $T, P$ (and
-constitution).  A more extended mathematical expression could be
-allowed for expressions which are not used for database parameters.
-In OC it is allowed to enter more complex expressions for post
-processing in batch/macro files but they are not included in the
-database.
-
-In the 1990 definition of the TDB file the type of expression allowed
-consists of ``simple terms'' such as:
-
-[signed real number] * [{\bf TPfun Id} ] ** [power] *T** [power] *P**[power]
-
-where [power] is an integer (a negative power must be within
-parenthesis, a positive must not).  No spaces allowed in a simple
-term.  A ``complex term'' is a simple term multiplied with a math
-function (EXP, LN or GEIN) of a simple term, such as:
-
-[simple term] *LN( [simple term] )
-
-An {\em Expr} attribute in {\bf TPfun, Trange} or {\bf Parameter}
-consists one or more complex terms.  A positive sign of the first term
-can be omitted.
-  
-It is not allowed to group several terms together using parenthesis,
-for example ``exp(5.7-3*T+2*T*LN(T))''.  The complex expression after
-``exp'' must be entered as a separate {\bf TPfun} and then used as the
-agrument of the exponential function.  For example a square root of
-$T$ is entered as two {\bf TPfun}://
+\begin{framed}
+\begin{minipage}[t]{\textwidth}
+\vspace{-2mm}
+\noindent
+{\small
 \begin{verbatim}
-<TPfun Id="HALFT" Expr="0.5*LN(T);" />
-<TPfun Id="SQRT"  Expr="EXP(HALFT);" />
+  <!-- Element A is acetonitrile and B is N_Helptane -->
+  <Element Id="A" />
+  <Element Id="B" />
+  <Species Id="ACN" Stoichiometry="A" UNIQUAC="1.72 1.87"  />
+  <Species Id="N_HEP" Stoichiometry="B" UNIQUAC="4.4 5.17"  />
 \end{verbatim}
+}
+\end{minipage}
+\end{framed}
 
-For thermodynamic parameters the expressions are usually quite simple
-but for other physical properties it may be interesting to allow more
-elaborate expressions.  However, separating a complex expression into
-several parts may be useful for tracing its origin and can simplify
-updating and calculations.
-  
-The following general math functions are allowed in OC:\\ $\exp(),
-\ln(), \log(),$ erf().  Note that $\log()$ and $\ln()$ is the same and
-erf() is the error function.  The number of math functions can be
-extended as discussed in the nect section.
+\subsection{Properties per mole atom of formula unit}\label{sec:physmod}
 
-\subsection{The GEIN function used of TPfun and Parameters}\label{sec:gein}
-
-In the 3rd generation unary project the Einsten function for the low
-$T$ vibrational heat capacity has been introduced:
+Note that in most physical models the Gibbs energy is defined per mole
+of atoms.  In the Gibbs energy for the phase this must be multiplied
+with the number of atoms per formula unit.  This in
+eq.~\ref{eq:gmodel} the value of $~^{\rm phy}G^{\alpha}_M$ must
+normally include the variable $\aleph^{\alpha}$:
 \begin{eqnarray}
-{\rm GEIN}(\theta) &=& 1.5R\theta+3RT\ln(1-\exp(-\theta/T)) \label{eq:gein}
+~^{\rm phy}G^{\alpha}_M &=& \aleph^{\alpha} ~^{\rm phy}G_m \label{eq:perfm}
 \end{eqnarray}
-where the argument of GEIN function should be a fitted Einstein
-temparature, $\theta$ in Kelvin.  This $\theta$ must be allowed to
-vary with the composition of the phase and thus the $\theta$ was
-introduced as a model parameter identifier (MPID) called LNTH in OC.
-For physical reasons it was decided that the logarithm of $\theta$ was
-a more appropriate value to vary with the composition.  In
-Appendix~\ref{sec:alc} the whole assessment of Al-C is listed and
-below just the G and LNTH parameter for the diamond phase:
+where $~^{\rm phy}G_m$ is the contribution per mole of atoms found in
+textbooks~\cite{00Ans}.  In earler assessment for the magnetic
+contribution this was frequently included in the value of the Bohr
+magneton number was unphysical.
 
-\begin{verbatim}
-  <Parameter Id="G(DIAMOND,C;0)"  Expr=" +G0DIACC+GEDIACC;"  Bibref="20HE" />
-  <Parameter Id="LNTH(DIAMOND,C;0)"  Expr=" +LN(1601.4467);"  Bibref="20HE" />
-\end{verbatim}
+%\begin{eqnarray}
+%\end{eqnarray}
 
-However, during the assessment it was found that using several
-$\theta$ together with weighting factors (that summed up to unity) a
-better fit could be obtained.  The fitted $\theta_i$ and factors $f_i$
-are in the table below:
 
-\begin{tabular}{lrrrrrr}
-State  & $f_1$   & $\theta_1$ & $f_2$   & $\theta_2$ & $f_3$  & $\theta_3$ \\
-Fitted &  0.2318 & 813.637 & 0.01148 & 345.35 & 0.763257 & 1601.4467\\
-in {\bf TPfun} &  0.2318 & 813.637 & 0.01148 & 345.35 & -0.236743 & 1601.4467\\
-\end{tabular}
-
-Multiple $\theta$ is no big surprise as the Einstein function is a
-simple but rather crude approximation of the low $T$ heat capacity.
-But for several reasons one cannot have several LNTH parameters and
-thus one must select one $\theta$ to vary with the composition and the
-other are included in the {\em Expr} attribute in the {\bf Parameter}
-tag for the Gibbs energy of C in the diamond phase above.  In the {\bf
-  TPfun} GEDIACC the factor for the GEIN function of $\theta_3$ is
-negative to compensate for the contribution from the LNTH parameter.
-
-\begin{verbatim}
-  <TPfun Id="GEDIACC" Expr=" +0.2318*GEIN(813.637)+.01148*GEIN(345.35)-0.236743*GEIN(1601.4467);" /> 
-\end{verbatim}
-
-It is recommended to use LN($\theta$) in the {\em Expr} of the LNTH
-parameter rather than its the numeric value to visualize the
-correspondance with the arguments of the GEIN function.
-
-\subsection{The phase tag and attributes}\label{sec:phasetag}
-
-All data in the XTDB database is part of a phase.  The model of a
-phase is a simplification of the reality.
-
-\subsubsection{The phase Id}\label{sec:phaseid}
-
-A phase name must start with a letter A-Z and have no more than 24
-characters.  It can contain letters, numbers and the special character
-``\_''.  {\bf The characters ``(`` and ``)'' must not be used in phase
-  names.}   
-
-Some phases which appear in different systems with different names for
-example CaO (lime) and MgO (periclase) are modeled as the same phase
-in the database because they can form (at least theoretically) a
-continuous solution.  Thus a more structure related phase {\rm Id} is
-preferred in the database, for example ``halite''.  More specific
-information about the phase can be provided using the {\bf
-  CrystalStructure} tag but it will not cover all cases for which a
-phase may be stable.
-
-A phase name may be abbreviated in parameters and some other cases and
-thus each phase name must be unique and not an abbreviation of another
-phase.  One must not have a phase Al2O3 and another Al2O3\_BIS.  Phase
-names has to be considered carefully when adding new assessments to a
-database.
-
-\subsubsection{The configurational entropy model}\label{sec:cfg}
-
-For the configurational entropy model we have CEF, I2SL, MQMQA,
-UNIQUAC and maybe some more.  Maybe also ``IDEAL'' could be used when
-there are ideal mixing and no interactions (as in ideal gas) and maybe
-``REGULAR'' for a phase with ideal mixing in a single lattice with one
-site and some excess parameters.
-
-\subsubsection{Using several fraction variables}\label{sec:nodis}
+\subsection{Using several fraction variables}\label{sec:nodis}
 
 A phase with a {\bf DisorderedPart} tag tag can have an optional
 attribute specifying a phase with the parameters for the disordered
@@ -1151,12 +1112,292 @@ with phases witn many sublattices.
 It is unfortunate we did not start to use XML 20 years ago, we could
 have avoided some complications.
 
-\subsection{The use of the Parameter tag}
+\subsection{Permutations and wildcards}
+
+The permutations means that a parameter which can have permutation of
+its constituents on idetical sites is stored only once in the
+database.  For example in an FCC ordered phase a parameter
+
+G(FCC\_4SL,FE:AL:AL:AL:VA)
+
+\noindent
+has 3 identical permutations:
+
+\noindent
+G(FCC\_4SL,AL:FE:AL:AL:VA), G(FCC\_4SL,AL:AL:FE:AL:VA) and
+G(FCC\_4SL,AL:AL:AL:FE:VA)
+
+\noindent
+which are not included in the database but taken care of by the
+software.  This reduce the size of the database and avoid human
+errors.  It requires that the software calculates automatcally the
+contribution from all 4 permutations of the constituents of indentical
+sides.  There are other excess parameters with up to 24 permutations.
+
+The wildcards, see section~\ref{sec:parametertag} is frequently used
+for parameters of ordered phases, see Appendix~\ref{sec:wildcard},
+\ref{sec:OD} and the following sections.
+
+For a phase with the {\bf DisorderedPart} tag the Gibbs energy
+(excluding the configurational entropy) is calculated by one of these
+equations:
+\begin{eqnarray}
+G_M &=& ~^{\rm dis}G_M(x) + ~^{\rm ord}G_M(y) \label{eq:nosub}\\
+G_M &=& ~^{\rm dis}G_M(x) + ~^{\rm ord}G_M(y) - ~^{\rm ord}G_M(y=x) \label{eq:sub}
+\end{eqnarray}
+where $x$ is averaged values of $y$ for some (or all) sublattices in
+the ordered phase.  Eq.~\ref{eq:nosub} is mainly used for phaes with
+many sublattices which never disorder for example intermetallic
+phases.
+
+In order to use eq.~\ref{eq:sub} one must specify the attribute {\em
+  Subtract} (with any value).  This equation can be used for phases
+with order/disorder transitions such as FCC, BCC and HCP.  Such phases
+are stable as disordered in many systems but sometimes exhitit
+ordering.  Using eq.~\ref{eq:sub} the model parameters as ordered and
+disordered phase can be assessed separately because calculating the
+Gibbs energy of the ordered phase twice, the second time using the
+disordered fractions, and then subtracting means the ordered
+parameters will not affect the disorderd state.  For details
+see~\cite{97Ans} and~\cite{07Hal}
+
+Permutations also applies to interaction parameters, a parameter
+G(FCC\_4SL,A,B:A:A:A) has 4 permutations and G(FCC\_4SL,A,B:A,B:A:A)
+has 6 permutations.  The latter is important to approximate the SRO in
+phases with order/disorder transitions.
+
+Wildcards and permutations are often combined and in fact one
+often finds parameters as:
+
+G(FCC\_4SL,A,B:*:*:*) with 4 permutations and where the wildcard ``*''
+can represent a third (or fourth) element.  This is of course an
+approximation but it works very well.  See also the EBEF
+model~\ref{sec:ebef}.
+
+\subsection{The Einstein model and the GEIN function}\label{sec:gein}
+
+After long discussions the unary group has decided to use a single
+composition dependent Einstein parameter for each phase and element in
+the new unary database.  An element with its heat capacity fitted
+using several Einstein $\theta$ will have the additional $\theta$
+described by the GEIN function in the {\em Expr} attribute in the {\bf
+  Parameter} or {\bf TPfun} tag, the GEIN function is defined in
+eq.~\ref{eq:gein} in section~\ref{sec:expr}.  For multiple $\theta$
+see the Al-C example in Appendix~\ref{sec:alc}.
+
+In the 3rd generation unary project the Einsten function for the low
+$T$ vibrational heat capacity has been introduced:
+\begin{eqnarray}
+{\rm GEIN}(\theta) &=& 1.5R\theta+3RT\ln(1-\exp(-\theta/T)) \label{eq:gein}
+\end{eqnarray}
+where the argument of GEIN function should be a fitted Einstein
+temparature, $\theta$ in Kelvin.  This $\theta$ must be allowed to
+vary with the composition of the phase and thus the $\theta$ was
+introduced as a model parameter identifier (MPID) called LNTH in OC.
+For physical reasons it was decided that the logarithm of $\theta$ was
+a more appropriate value to vary with the composition.  In
+Appendix~\ref{sec:alc} the whole assessment of Al-C is listed and
+below just the G and LNTH parameter for the diamond phase:
+
+\begin{verbatim}
+  <Parameter Id="G(DIAMOND,C;0)"  Expr=" +G0DIACC+GEDIACC;"  Bibref="20HE" />
+  <Parameter Id="LNTH(DIAMOND,C;0)"  Expr=" +LN(1601.4467);"  Bibref="20HE" />
+\end{verbatim}
+
+However, during the assessment it was found that using several
+$\theta$ together with weighting factors (that summed up to unity) a
+better fit could be obtained.  The fitted $\theta_i$ and factors $f_i$
+are in the table below:
+
+\begin{tabular}{lrrrrrr}
+State  & $f_1$   & $\theta_1$ & $f_2$   & $\theta_2$ & $f_3$  & $\theta_3$ \\
+Fitted &  0.2318 & 813.637 & 0.01148 & 345.35 & 0.763257 & 1601.4467\\
+in {\bf TPfun} &  0.2318 & 813.637 & 0.01148 & 345.35 & -0.236743 & 1601.4467\\
+\end{tabular}
+
+Multiple $\theta$ is no big surprise as the Einstein function is a
+simple but rather crude approximation of the low $T$ heat capacity.
+But for several reasons one cannot have several LNTH parameters and
+thus one must select one $\theta$ to vary with the composition and the
+other are included in the {\em Expr} attribute in the {\bf Parameter}
+tag for the Gibbs energy of C in the diamond phase above.  In the {\bf
+  TPfun} GEDIACC the factor for the GEIN function of $\theta_3$ is
+negative to compensate for the contribution from the LNTH parameter.
+
+\begin{verbatim}
+  <TPfun Id="GEDIACC" Expr=" +0.2318*GEIN(813.637)+.01148*GEIN(345.35)-0.236743*GEIN(1601.4467);" /> 
+\end{verbatim}
+
+It is recommended to use the function LN($\theta$) in the {\em Expr}
+of the LNTH parameter rather than its numeric value to visualize the
+correspondance with the arguments of the GEIN function.
+
+\subsection{The magnetic models}\label{sec:ihj}
+
+The magnetic contribution to the Gibbs energy was the first separate
+model for a physical property with composition dependent model
+parameters.
+
+\subsubsection{The Inden-Hillert-Jarl model}\label{sec:ihjhs}
+
+This magnetic models introduced already 50 years ago~\cite{78Hil,
+  82Her} are still used in many databases but one should be careful
+about the value of the Bohr magneton number for phases with formula
+units larger than 1.
+
+\subsubsection{The Qing-Xiong magnetic model}\label{sec:qxmag}
+
+In this model~\cite{11Xio,12Xio} the Curie and Neel $T$ were modeled
+as separate composition dependent parameters.
+
+\subsection{The 2 state liquid model}\label{sec:liq2state}
+
+This model~\cite{88Agr, 13Bec} was introduced in the 3rd generation
+unary to handle the extrapolation of the thermodynamics of a liquid
+below its freezing $T$.  It includes an Einstein model for the
+metastable amorphous phase and a parameter for the transition to the
+stable liquid.
+\begin{eqnarray}
+G_M &=& G_M - RT\ln(1+\exp(-\frac{G^d_M}{RT})) \label{eq:gl2state}
+\end{eqnarray}
+where $G^d_M$ is a polynomial in $T$ describing the transition from an
+amorphous state with no translational degrees of freedom to the liquid
+state.
+
+\subsection{The equivalent entropy criterion, EEC}\label{sec:eec}
+
+In the 1991 unary database a quick fix was introduced to avoid that
+the heat capacity of a the solid phase of an element extrapolated to
+very high values above its melting point.  The ``SGTE extrapolation''
+forced the heat capacity of the metastable solid to approch the heat
+capacity of the liquid phase.  But this lead to some compounds, lcking
+experimental data and using the Kopp-Neumann model for thei heat
+capacity, to have kinks in their solid range.
+
+A new model~\cite{21Sun} for handling this by preventing a solid phase
+to be stable if its entropy is higher than that of a liquid phase at
+the same temperature has been introduced in the 3rd generation unary
+database.  The solid and liquid phases do not have to have the same
+composition.
+
+\subsection{The phase tag and attributes}\label{sec:phasetag}
+
+All data in the XTDB database is part of a phase.  The model of a
+phase is a simplification of the reality.
+
+\subsubsection{The phase Id}\label{sec:phaseid}
+
+A phase name must start with a letter A-Z and have no more than 24
+characters.  It can contain letters, numbers and the special character
+``\_''.  {\bf The characters ``(`` and ``)'' must not be used in phase
+  names.}   
+
+Some phases which appear in different systems with different names for
+example CaO (lime) and MgO (periclase) are modeled as the same phase
+in the database because they can form (at least theoretically) a
+continuous solution.  Thus a more structure related phase {\rm Id} is
+preferred in the database, for example ``halite''.  More specific
+information about the phase can be provided using the {\bf
+  CrystalStructure} tag but it will not cover all cases for which a
+phase may be stable.
+
+A phase name may be abbreviated in parameters and some other cases and
+thus each phase name must be unique and not an abbreviation of another
+phase.  One must not have a phase Al2O3 and another Al2O3\_BIS.  Phase
+names has to be considered carefully when adding new assessments to a
+database.
+
+\subsubsection{The configurational entropy model}\label{sec:cfg}
+
+For the configurational entropy model there is have
+\begin{itemize}
+\item CEF which can be used for ideal (random) mixing for
+  sublattice models as well as substitutional models.
+  \begin{eqnarray}
+    ~{\rm cfg}S_M &=& \sum_s a_s \sum_i y_{s,i} \ln(y_{s,i}) \label{eq:idealmix}\\
+    \sum_i y_{s,o} &=& 1 \\
+    M &=& \sum_s a_s     \label{eq:formulaunit}
+  \end{eqnarray}
+  where $y_{s,i}$ is the constituent fraction of $i$ on sublattice $s$
+  with $a_s$ sites.  $M$ is the formula unit of the phase and if there
+  are vacancies or molecules as species the number of atoms per
+  formula unit may very with the constitution.
+  
+\item I2SL is the partially ionic 2 sublattice
+  model~\cite{85Hil,91Sun} with variable ration of sites on the cation
+  and anion sublattice.
+  
+\item MQMQA is the modified quasichemical model in the quadruplet
+  approximation~\cite{01Pel2} including an approximate short range
+  ordering (SRO) contribution.
+  
+\end{itemize}
+
+
+
+\subsection{The TPfun and the Parameter tag}
 
 An XTDB database will consist mainly of {\bf Parameter} tags, defined
 in~\ref{sec:parametertag}, and expanations of its use depend very much
 on the models used.  Some further explainations can be found in
 Appendix~\ref{sec:partags}
+
+\subsubsection{The Expr attribute of TPfun and Parameter}\label{sec:tpfunattr}\label{sec:expr}
+
+The {\em Id} attribute of a {\bf TPfun} must start with a letter A-Z
+and may contain letters, digits and the special character ``\_''.  It
+must not be longer than 16 characters.  It must not be abbreviated
+when used in other tags.
+
+When used in an {\em Expr} attribute it does not have to be terminated
+by the hash character "\#" as in current TDB files.
+
+The mathematical expressions for $T$ and $P$ used in the {\em Expr}
+attribute in {\bf TPfun, Trange} and {\bf Parameter} are the same as
+in TDB files.  It is very restricted because some software must
+calculate first and and second derivatives with respect to $T, P$ (and
+constitution).  A more extended mathematical expression could be
+allowed for expressions which are not used for database parameters.
+In OC it is allowed to enter more complex expressions for post
+processing in batch/macro files but they are not included in the
+database.
+
+In the 1990 definition of the TDB file the type of expression allowed
+consists of ``simple terms'' such as:
+
+[signed real number] * [{\bf TPfun Id} ] ** [power] *T** [power] *P**[power]
+
+where [power] is an integer (a negative power must be within
+parenthesis, a positive must not).  No spaces allowed in a simple
+term.  A ``complex term'' is a simple term multiplied with a math
+function (EXP, LN or GEIN) of a simple term, such as:
+
+[simple term] *LN( [simple term] )
+
+An {\em Expr} attribute in {\bf TPfun, Trange} or {\bf Parameter}
+consists one or more complex terms.  A positive sign of the first term
+can be omitted.
+  
+It is not allowed to group several terms together using parenthesis,
+for example ``exp(5.7-3*T+2*T*LN(T))''.  The complex expression after
+``exp'' must be entered as a separate {\bf TPfun} and then used as the
+agrument of the exponential function.  For example a square root of
+$T$ is entered as two {\bf TPfun}://
+\begin{verbatim}
+<TPfun Id="HALFT" Expr="0.5*LN(T);" />
+<TPfun Id="SQRT"  Expr="EXP(HALFT);" />
+\end{verbatim}
+
+For thermodynamic parameters the expressions are usually quite simple
+but for other physical properties it may be interesting to allow more
+elaborate expressions.  However, separating a complex expression into
+several parts may be useful for tracing its origin and can simplify
+updating and calculations.
+  
+The following general math functions are allowed in OC:\\ $\exp(),
+\ln(), \log(),$ erf().  Note that $\log()$ and $\ln()$ is the same and
+erf() is the error function.  The number of math functions can be
+extended as discussed in the nect section.
 
 \section{A few more points}\label{sec:points}
 
@@ -1203,53 +1444,89 @@ A summary of things done and to be considered
   should provide them in the XTDB format as supplementary material.
 
 \item We should agree on a list of MPID and how to handle software
-  specific MPIDs.  However, with the {\bf Model} tag one may
-  substitute the default software MPID by those used in the XTDB file
-  for the same model.
+  specific MPIDs.  However, with the {\bf ModelDescription} tag each
+  software may use its own MPID and each softwar may convert hem
+  to its own preferred value.
 
-  There will be many MPID for kinetic and other properties which does
-  not concern the thermodynamic data but they should anyway have
-  welldefined MPIDs.
+  There may be many additional MPID for kinetic and other properties
+  which does not concern the thermodynamic data but they should anyway
+  have welldefined MPIDs.
 
-\item The schema for XTDB and a formal XTDB definition written as XML
-  should be written.  Who can do that?
+\item There is no schema for the XTDB format but it is expected that those
+  interested in a more elaborate XML/JSON etc format will provide a
+  converter to/from the XTDB format.
   
-\end{enumerate}
+\item There are certainly many more things to take care of but I think
+  it is more important to agree now on a minimum common XTDB format
+  which can make the thermodynamic databases more useful both for
+  experimentalists, assessments, database maintenance and simulations
+  using thermodynamic data as well as for the development of new
+  models and applications.
 
-\section{Summary}
-
-There are certainly many more things to take care of but I think it is
-more important to agree very soon on a minimum common XTDB format
-which can make the thermodynamic databases more useful both for
-experimentalists, assessments, database maintenance and thermodynamic
-software, in particular for the development of new models and
-applications.
-
-We can take one step at a time but be careful to to set limits for
+\item We can take one step at a time but be careful to to set limits for
 future extensions.  Many different kinds of physical data for
 materials will probably be added to this XTDB format.
 
+\end{enumerate}
+
 \begin{thebibliography}{00Zzzz}
 \bibitem{91Din} A Dindsdale, Calphad, {\bf 15}, (1991), 317--425
-\bibitem{XTDB} to be published
+\bibitem{25xtdb} submitted to Calphad journal
 \bibitem{XML} https://www.w3schools.com/whatis/whatis\_xml.asp
 \bibitem{SGTE} https://www.sgte.net/
 
-\bibitem{80Hil} Mats Hillert,  Caphad, {\bf 4}, (1980), pp 1--12
-\bibitem{97Ans} Ibrahim. Ansara, Nathalie Dupin, Hans Leo Lukas and Bo Sundman,
+\bibitem{80Hil} M Hillert,  Caphad, {\bf 4}, (1980), pp 1--12
+\bibitem{97Ans} I Ansara, N Dupin, H L Lukas and B Sundman,
   J All and Comp, {\bf 247} (1997) pp 20--30
 \bibitem{98Sun} B Sundman, S G Fries and A Oates, (1998) Calphad
-\bibitem{07Hal} Bengt Hallstedt, Nathalie Dupin, Mats Hillert, Lars
-  H{\"o}glund, Hans Leo Lukas, Julius C. Shuster and Nuri Solak,
-  Calphad, {\bf 31} (2007) pp 28--37.
-\bibitem{01Pel} Arthur D Pelton, Calphad {\bf 25} (2001) pp 319--328
-\bibitem{18Dup} Nathalie Dupin, Ursula R Kattner, Bo Sundman, Mauro
-  Palumbo and Suzana G Fries, J Res NIST, {\bf 123}, (2018)
+\bibitem{07Hal} B Hallstedt, N Dupin, M Hillert, L H{\"o}glund, H L
+  Lukas, J C. Shuster and N Solak, Calphad, {\bf 31} (2007) pp 28--37.
+\bibitem{01Pel} A D Pelton, Calphad {\bf 25} (2001) pp 319--328
+\bibitem{18Dup} N Dupin, U R Kattner, B Sundman, M
+  Palumbo and S G Fries, J Res NIST, {\bf 123}, (2018)
   doi:10.6028/jres.123.020
-\bibitem{21Sun} Bo Sundman, Ursula R. Kattner, Mats Hillert, Malin
-  Selleby, John Ågren, Sedigheh Bigdeli, Qing Chen, Alan Dinsdale,
-  Bengt Hallstedt, Alexandra Khvan, Huahai Mao, Richard Otis, Calphad,
-  {\bf 68} (2020) 101737
+\bibitem{21Sun} B Sundman, U R Kattner, M Hillert, M Selleby, J
+  {\AA}gren, S Bigdeli, Q Chen, A Dinsdale, B Hallstedt, A Khvan, H
+  Mao, R Otis, Calphad, {\bf 68} (2020) 101737
+% mqmqa
+\bibitem{21Posch} M Poschmann, P Bajpai, B W N Fitzpatrick, M H A Piro,
+  Calphad, {\bf 75} (2021) https://doi.org/10.1016/j.calphad.2021.102341
+% uniquac
+\bibitem{20Li} J Li, B Sundman, J G M Winkelman, A I Vakis, F
+  Picchioni Fluid Phase Eq, {\bf 507} (2020)
+  https://doi.org/10.1016/j.fluid.2019.112398
+\bibitem{75Abr} D.S. Abrams, J.M. Prausnitz, {\em Statistical
+  thermodynamics of liquid mixtures: a new expression for the excess
+  Gibbs energy of partly or completely miscible systems}, AIChE J. 21
+  (1975) 116e128.
+\bibitem{78And} T.F. Anderson, J.M. Prausnitz, {\em Application of the
+  UNIQUAC equation to calculation of multicomponent phase
+  equilibria. 2. Liquid-liquid equilibria}, Ind.  Eng. Chem. Process
+  Des. Dev. 17 (1978) 561e567.
+\bibitem{00Ans} I Ansara and B Sundman, Calphad {\bf 24} (2000), pp
+  181--182
+\bibitem{85Hil} M Hillert, B Jansson, B Sundman, J {\AA}gren,
+  Met.Trans A {\bf 16A} (1985) pp 261--266
+\bibitem{91Sun} B Sundman, Calphad {\bf 15} pp 109--119
+\bibitem{01Pel2} A D Pelton, P Chartrand and G Eriksson,
+  Met Trans A {\bf 32A} (2001) pp 1409--1416
+\bibitem{78Hil} M Hillert, M Jarl, Calphad {\bf 2} (1978) pp 227--238
+\bibitem{82Her} S Hertzman, B Sundman, Calphad {\bf 6} (1982) pp 67--80
+\bibitem{01Qing} Q Chen, B Sundman, J Phase Eq, {\bf 22}, (2001) pp 631--644
+\bibitem{11Xio} W Xiong, P Hedstr{\"o}m, M Selleby, J Odqvist, M
+  Thuvander, Q Chen, Calphad {\bf 35} (2011) pp 335--366
+\bibitem{12Xio} W. Xiong, Q. Chen, P. A. Korzhavyi and M. Selleby, An
+  improved magnetic model for thermodynamic modeling, Calphad, Vol 39
+  (2012) pp 11-20
+
+\bibitem{88Agr} J. {\AA}gren, {\em Thermodynmaics of supercooled
+  liquids and their glass transition}, Phys Chem Liq, {\bf 18} (1988),
+  doi:10.1080/00319108808078586.
+
+\bibitem{13Bec} C. A. Becker, J. Agren, M. Baricco, Q Chen,
+  S. A. Decterov, U. R. Kattner, J. H. Perepezko, G. R. Pottlacher and
+  M. Selleby, {\em Thermodynamic modelling of liquids}, Phys Stat Sol B
+  (2013), doi:10.1002/pssb.201350149
 \end{thebibliography}
 
 
@@ -1262,9 +1539,11 @@ materials will probably be added to this XTDB format.
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{A\arabic{figure}}
 
-Some features listed above have not been implemented in the examples.
+%%%%%%%%%%%%%%%%%%% Appendix A 
 
 \section{Some examples}\label{sec:examples}
+
+Some examples are not updated to the most recent XTDB format!
 
 In the OC software I have now implemented a command to write an XTDB
 file (maybe not exactly identical to this definition as I am modifying
@@ -1458,7 +1737,7 @@ file can also appear in a short form as below.
 
 {\small
 \begin{verbatim}
-  <Models>
+  <ModelDescription>
     <Magnetic Id="IHJBCC"  MPID1="TC" MPID2="BMAGN" Bibref="82Her" />
     <Magnetic Id="IHJREST"  MPID1="TC" MPID2="BMAGN" Bibref="82Her" />
     <Einstein Id="GEIN" MPID1="LNTH" bibref="01Che" /> 
@@ -1467,7 +1746,7 @@ file can also appear in a short form as below.
     </Liquid2state>
     <Volume Id="VOLOWP" MPID1="V0"  MPID2="VA" MPID3="VB" bibref="05Lu" />
   ...
-  </Models>
+  </ModelsDesriptions>
   ...
   <TernaryXpol Phase="Liquid" Constituents"Si Fe Cr" Xpol=T1T1K" />
 \end{verbatim}
@@ -1488,6 +1767,8 @@ within a {\bf Phase} tag for the ordered phase.
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{B\arabic{figure}}
 
+%%%%%%%%%%%%%%%%%%% Appendix B
+
 \section{An attempt to summarize model tags and MPIDs.}\label{sec:modelapp}
 
 The XTDB file should include an {\bf AppendXTDB} with a link to the
@@ -1499,7 +1780,7 @@ and its model parameter identifiers (MPIDs) should be provided.
 
 {\small
 \begin{verbatim}
-  <Models>
+  <ModelDescription>
   <!-- This is a short explanation of XTDB model tags and their attributes, the models for except for
   the configurational entropy.
   The AmendPhase tag (nested inside a Phase tag) is used to specify some additional models for the phase
@@ -1580,21 +1861,34 @@ and its model parameter identifiers (MPIDs) should be provided.
      The parameters may also use the short form "constituent@sublattice" in order to specify only the constituents
      in sublattices without wildcards.  It also requires the DisorderedPart model. -->
   </EBEF>
-  </Models>
   <Bibliography> 
-    <Bibitem Id="82Her" Text="S. Hertzman and B. Sundman, A Thermodynamic analysis of the Fe-Cr system,' Calphad, Vol 6 (1982) pp 67-80" />
-    <Bibitem Id="88Agr" Text="J. Agren, Thermodynmaics of supercooled liquids and their glass transition, Phys Chem Liq, Vol 18 (1988) pp 123-139" />
-    <Bibitem Id="97Ans" Text="I. Ansara, N. Dupin, H. L. Lukas and B. Sundman, Thermodynamic assessment of the Al-Ni system, J All and Comp, Vol 247 (1997) pp 20-30" />
-    <Bibitem Id="01Che" Text="Q. Chen and B. Sundman, Modeling of Thermodynamic Properties for BCC, FCC, Liquid and Amorphous Iron, J Phase Eq, Vol 22 (2001) pp 631-644" />
-    <Bibitem Id="01Pel" Text="A. D. Pelton, A General Geometric Thermodynamic Model for Multicomponent  solutions, Calphad, Vol 25 (2001) pp 319-328" />
-    <Bibitem Id="05Lu" Text="X.-G. Lu, M. Selleby B. Sundman, Implementation of a new model for pressure dependence of condensed phases in Thermo-Calc, Calphad, Vol 29 (2005) pp 49-55" />
-    <Bibitem Id="07Hal" Text="B. Hallstedt, N. Dupin, M. Hillert, L. Hoglund, H. L. Lukas, J. C. Schuster and N. Solak, Calphad, Vol 31 (2007) pp 28-37" />
-    <Bibitem Id="09Sun" Text="B. Sundman, I. Ohnuma, N. Dupin, U. R. Kattner and S. G. Fries, An assessment of the entire Al-Fe system including D03 ordering, Acta Mater, Vol 57 (2009) pp 2896-2908" />
-    <Bibitem Id="12Xio" Text="W. Xiong, Q. Chen, P. A. Korzhavyi and M. Selleby, An improved magnetic model for thermodynamic modeling, Calphad, Vol 39 (2012) pp 11-20" />
-    <Bibitem Id="13Bec" Text="C. A. Becker, J. Agren, M. Baricco, Q Chen, S. A. Decterov, U. R. Kattner, J. H. Perepezko, G. R. Pottlacher and M. Selleby, Thermodynamic modelling of liquids: Calphad approaches and contributions from statistical physics, Phys Stat Sol B (2013) pp 1-20" />
-    <Bibitem Id="18Dup" Text="N. Dupin, U. R. Kattner, B. Sundman, M. Palumbo and S. G. Fries, Implementation of an Effective Bond Energy Formalism in the Multicomponent Calphad Approach, J Res NIST, Vol 123 (2018) 123020" />
-    <Bibitem Id="20Sun" Text="B. Sundman, U. R. Kattner, M. Hillert, M. Selleby, J. Agren, S. Bigdeli, Q. Chen, A. Dinsdale, B. Hallstedt, A. Khvan, H. Mao and R. Otis, A method for handling the extrapolation of solid crystalline phases to temperatures far above their melting point, Calphad, Vol 68 (2020) 101737" />
+    <Bibitem Id="82Her" Text="S. Hertzman and B. Sundman, A Thermodynamic analysis of the Fe-Cr system,'
+          Calphad, Vol 6 (1982) pp 67-80" />
+    <Bibitem Id="88Agr" Text="J. Agren, Thermodynmaics of supercooled liquids and their glass transition,
+          Phys Chem Liq, Vol 18 (1988) pp 123-139" />
+    <Bibitem Id="97Ans" Text="I. Ansara, N. Dupin, H. L. Lukas and B. Sundman, Thermodynamic assessment of the Al-Ni system,
+          J All and Comp, Vol 247 (1997) pp 20-30" />
+    <Bibitem Id="01Che" Text="Q. Chen and B. Sundman, Modeling of Thermodynamic Properties for BCC, FCC, Liquid and Amorphous Iron,
+          J Phase Eq, Vol 22 (2001) pp 631-644" />
+    <Bibitem Id="01Pel" Text="A. D. Pelton, A General Geometric Thermodynamic Model for Multicomponent  solutions,
+          Calphad, Vol 25 (2001) pp 319-328" />
+    <Bibitem Id="05Lu" Text="X.-G. Lu, M. Selleby B. Sundman, Implementation of a new model for pressure dependence
+          of condensed phases in Thermo-Calc, Calphad, Vol 29 (2005) pp 49-55" />
+    <Bibitem Id="07Hal" Text="B. Hallstedt, N. Dupin, M. Hillert, L. Hoglund, H. L. Lukas, J. C. Schuster and N. Solak,
+          Calphad, Vol 31 (2007) pp 28-37" />
+    <Bibitem Id="09Sun" Text="B. Sundman, I. Ohnuma, N. Dupin, U. R. Kattner and S. G. Fries, An assessment of the
+          entire Al-Fe system including D03 ordering, Acta Mater, Vol 57 (2009) pp 2896-2908" />
+    <Bibitem Id="12Xio" Text="W. Xiong, Q. Chen, P. A. Korzhavyi and M. Selleby, An improved magnetic model for thermodynamic modeling,
+          Calphad, Vol 39 (2012) pp 11-20" />
+    <Bibitem Id="13Bec" Text="C. A. Becker, J. Agren, M. Baricco, Q Chen, S. A. Decterov, U. R. Kattner, J. H. Perepezko, G. R. Pottlacher and M. Selleby, Thermodynamic modelling of liquids: Calphad approaches
+          and contributions from statistical physics, Phys Stat Sol B (2013) pp 1-20" />
+    <Bibitem Id="18Dup" Text="N. Dupin, U. R. Kattner, B. Sundman, M. Palumbo and S. G. Fries, Implementation of an Effective
+          Bond Energy Formalism in the Multicomponent Calphad Approach, J Res NIST, Vol 123 (2018) 123020" />
+    <Bibitem Id="20Sun" Text="B. Sundman, U. R. Kattner, M. Hillert, M. Selleby, J. Agren, S. Bigdeli, Q. Chen, A. Dinsdale,
+            B. Hallstedt, A. Khvan, H. Mao and R. Otis, A method for handling the extrapolation of solid crystalline phases
+            to temperatures far above their melting point, Calphad, Vol 68 (2020) 101737" />
   </Bibliography>
+  </ModelDescription>
 
 \end{verbatim}
 }
@@ -1615,8 +1909,7 @@ order/disorder sets of a phase or sublattice number.
 
 At present the MPID "G'' is the Gibbs energy, TC Curie $T$, BMAGN the
 Bohr magneton number etc.  An MPID must not be abbreviated in a
-parameter.  Different software may use different MPID if they are well
-defined.
+parameter.  Different software may use different MPID.
 
 The degree in a binary excess model parameter defines the power used
 for the composition dependence in a binary Redlich-Kister polynomial.
@@ -1669,14 +1962,14 @@ Indx Ident T P Specification                Status Note
   }
 \end{table}
 
-A replacement of the ``\&'' character is needed.
-
 \newpage 
 
 \setcounter{equation}{0}
 \renewcommand{\theequation}{C\arabic{equation}}
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{C\arabic{figure}}
+
+%%%%%%%%%%%%%%%%%%% Appendix C
 
 \section{The Parameter tag and how it relates to models}\label{sec:partags}
 
@@ -2057,6 +2350,8 @@ XTDB format also.
 \renewcommand{\theequation}{D\arabic{equation}}
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{D\arabic{figure}}
+
+%%%%%%%%%%%%%%%%%%% Appendix D
 
 \section{Complete examples}\label{sec:complete}
 
@@ -2681,263 +2976,17 @@ manually and may contain some errors.
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{E\arabic{figure}}
 
+%%%%%%%%%%%%%%%%%%% Appendix E
+
 \section{Some highlights and significant changes from earlier versions}\label{sec:changes}
 
 \begin{enumerate}
-\item The {\bf Disordered\_3Part} and {\bf Disordered\_2Part} have
-  been merged to a single tag with an additional optional attribute
-  {\em Subtract}.  The {\bf Subtract} attribute is needed when the
-  ordered phases should be subtracted (i.e. the Disordered\_3Part) and
-  could have any value.  Without any {\bf Subtract} attribute the {\bf
-    DisorderedPart} tag means the same as the {\bf Disordered\_2Part}.
-
-\item The tags {\bf FCC4PERM} and {\bf BCC4PERM} are removed and
-  replaced by an attribute {\em Permutation} in the {\bf AmendPhase}
-  tag.  The value of the {\em Permutation} attribute can be either
-  FCC4PERM or BCC4PERM.
-
-\item I have added several attributes for the {\bf AppendXTDB} tag
-  indicating the content of the appended file with the idea to
-  simplify and speed up reading the XTDB file
-
-  While writing the software to read XTDB file my suggestion is that
-  after opening the principal XTDB file the software should first read
-  the {\em Models} attribute file which may introduce the models and
-  MPIDs for the model parameters in the database.  Then it should
-  continue reading the principal XTDB file with the {\bf Elements,
-    Species} and {\bf Phase} tags with subtags defining {\bf
-    Sublattices, Constituens} and {\bf AmendPhase} tags.  The
-  principal XTDB file can include {\bf Parameter} and {\bf TPfun} tags
-  but in a large XTDB file only few of those may be relevant for the
-  selected set of elements.  As a {\bf TPfun} may depend on other {\bf
-    TPfun}s it may be necessary to rewind and read the sequential XTDB
-  file several time to catch all {\bf TPfun}s.  Thus it may be
-  interesting to have them in a smaller separate file.
-
-  The file with the {\bf Bibliography} tags can be read at the end to
-  provide the references for the selected parameters.
-
-\item The {\em Sublattice} attribute of the {\bf Constituents} tag is
-  maybe redundant if we prescribe that the {\bf Constituent} tags must
-  be in the same order as used for the {\em Multiplicity} attribute in
-  the {\bf Sublattices} tag.  This order must also apply to the
-  constituents in {\em Id} of the {\bf Parameter} tags.
-
-\item The implementation of wildcards, in parameters as described in
-  section~\ref{sec:wildcard} may need attention in the software.
-
-\item The mathematical expression used for the {\em Expr} attribute in
-  the tags {\bf TPfun, Parameter} and {\bf Parameter2} must be as
-  simple as in the current TDB files, see section~\ref{sec:expr}.  The
-  GEIN function has been added.
-
-\item The previous {\bf Toop} and {\bf Kohler} tags are integrated in
-  a new {\bf TernaryXpol} tag which can be handled according to the
-  suggestions in the paper by Pelton~\cite{01Pel}.
-
+\item The definition is as in the tentative paper
+  
 \end{enumerate}
-
-\newpage
-
-\setcounter{equation}{0}
-\renewcommand{\theequation}{F\arabic{equation}}
-\setcounter{figure}{0}
-\renewcommand{\thefigure}{F\arabic{figure}}
-
-\section{The old introduction}\label{sec:oldintro}
-
-Within the Calphad community the databases with model parameters are
-important and can often be used by several different software as well
-as edited manually.  The most frequent format for such database is
-called TDB and was created by the Scientific Group Thermodata Europe
-(SGTE) while working on the unary databse for 78 elements which was
-published 1991~\cite{91Din}.  It has been used for more than 40 years
-but it has limitations, in particular when adding new new models and
-features.
-
-It is high time to change from this format and to adopt an accepted
-Markup Language as XML or JSON.  The XML has been selected for a new
-XTDB format as it has been around for a long time and is slightly more
-explicit.  There are many Markup Languages but it is easy to convert
-between any of them and thus the choice of XML is not very critical
-except to avoid spending several years to discuss the choice.
-
-XML is flexible and extendable and each software may add their own
-flavour in a controlled way.  It will be simpler to use an XTDB file
-by different softwares as one can easily indicate what is software
-specific rather than try to modify or extend the TDB format.
-
-To avoid the confusing use of {\bf element} both for chemical element
-and the XML element the word {\bf tag} will be used for the XML
-element.
-
-\subsection{Objectives}
-
-The TDB format is well established and used by students assessing
-model parameters as well as database managers and researches trying to
-develop new materials based on thermodynamic calculations.  This
-proposal proposes a minimal change from the current TDB format but
-will simplify future extensions.  The new format, called XTDB, will be
-used for:
-\begin{itemize}
-  \item manually editing of an XTDB file should be as easy as the
-    current TDB format also for non-experts.
-  \item minimize problems when using software A to read a database
-    file written by software B.
-  \item simplify adding features and new models for different phase
-    dependent physical properties in the thermodynamic database.
-  \item provide users of a database with information about the models
-    and bibliographic references, even for encrypted databases.
-  \item improve collaboration between users and researchers dealing
-    with Calphad databases.
-  \item simplify for software developers to add tags and attributes in
-    software and databases.  Such modifications should be discussed
-    between developers and users and eventually integrated in the XTDB
-    format.
-\end{itemize}
-
-Some software has already introduced features in the TDB file which
-may not bee fully implemented in other software.  Some of these are
-discussed in section~\ref{sec:wildcard}.
-
-This XTDB definition may require minor modifications in the XML format
-already adoped in some software.  Commercial companies providing
-encrypted databases to customers can use whatever format they prefer
-for such databases.  But they should provide a facility to read and
-write unencrypted databases in the XTDB format.
-
-\subsection{The XTDB file and some more}
-
-The characters used in an XTDB file are restricted to the classical
-ASCII character set.
-
-The XTDB file is divided into lines (terminated by LF (Line Feed or
-newline as preferred by UNIX dialects) or CRLF (Carriage Return and
-Line Feed as preferred by Windows)).  For the XTDB file a line should
-not exceed 2000 characters.
-
-If you are not familiar with XML there are plenty of information
-online.  A brief summary here:
-
-XML has 3 reserved charaters, ``$<'', ``>$'' and ``\&''.  These must
-not be used anywhere except for XML itself.
-
-An XML file consists of ``tags'' with ``attributes'' where the
-attributes contains the specific data for the tag.  An example makes
-it easier to explain:
-
-\begin{verbatim}
-<Element Id="AL" Refstate="FCC_A1" Mass="26.982" H298="4577.3" S298="28.322" />
-\end{verbatim}
-
-Each tag has a name preceded by the reserved character ``$<$'' followd
-by a ``tagname'' and the tag ends with ``$\eoxml$'' unless the tag
-contains other tags.  Such nested tags are each on a new line and the
-enclosing tag must be ended by ``$<$/tagname$>$'' on a separate
-line.  For examples see Appendix~\ref{sec:phaseexample}.
-
-An attribute is followed by an equal sign and the the data is enclosed
-by double quotes, ".  {\bf If the data consists of several values they
-  are separated by one or more spaces}, see
-Appendix~\ref{sec:phaseexample}, do not use a comma or anything else.
-An attribute can occur only once within a tag but the a tag be
-repeated any number of times.
-
-All tags and their attributes proposed for XTDB are listed in
-section~\ref{sec:tags} and explained for each tag.  Several examples
-are provided in later seactions and the Appendix~\ref{sec:complete}
-has two complete XTDB files.
-
-In this document a tag is usually written in {\bf bold} when refereced
-in the text and an attribute in {\em italics}.  Many tags have an {\em
-  Id} attribute which can be referenced to in other tags.  All values
-of the {\em Id} attributes are case insensitive as they are in the TDB
-file.  The value of an {\em Id} cannot be abbreviated when used in
-other tags except for phase {\em Id}.  But such an abbreviation must
-be unique.
-
-All attributes of an XTDB tag should fit within a line and only one
-XML tag per line in order to be easily readable by humans.  A tag with
-nested tags has its attributes on the same line as the tag and each
-nested tag begins on a new line.  The end of a tag including nested
-tags should appear on a line by itself, see for example
-Appendix~\ref{sec:phaseexample}.
-
-The attribute {\em List} of the {\bf Constituent} tag for a gas phase
-in a big system may exceed 2000 characters but several {\bf
-  Constituent} tags can be used for a phase.
-
-In the examples some long tags have been separated into several lines
-in order to be readable.
-
-A software reading the XTBD file should ignore XML tags and attributes
-it does not support, preferably with a warning to the user.
-
-The XML tagname and its attributes cannot be abbreviated and are case
-sensitive.
-
-Database users may be interested to add more or less temporary
-comments inside the database and comments, starting with ``$<$!---''
-and ending with ``---$>$'', can be added anywhere between tags in the
-XML file.  There must not be any "--" or forbidden characters inside
-the comment.
-
-An XML parser is convenient for reading XML files but to simplify the
-life for all the the humans reading and editing the XTDB file it is
-strongly recommended that the attributes to an XML tag are provided in
-the order listed for each tag below.  Software specific attributes can
-be added to a tag but should come at the end.
-
-\subsection{How this document can be read}
-
-The following proposal is for a common definition of an XTDB file
-format based on XML.  It can hopefully become an SGTE standard
-acceptable by all software groups which develop or use Calphad
-databases.
-
-In section~\ref{sec:tags} all proposed tags are listed with a short
-explanation.  In section~\ref{sec:attributes} a more detailed
-explation are given of some tags and attributes and
-section~\ref{sec:points} has a list of things to consider.
-
-In the Appendix~\ref{sec:examples} there are several examples of tags
-and attributes, in Appendix~\ref{sec:modelapp} an extensive list of
-model tags and their attributes.  In Appendix~\ref{sec:partags} there
-aee explanations how some thermodynamic models, such as
-EBEF~\ref{sec:ebef}, have been integrated in the XTDB format using
-wildcard feature.
-
-In Appendix~\ref{sec:complete} the complete XTDB file for the binary
-Al-C and Al-Li are listed and finally in Appendix~\ref{sec:changes} an
-attempt to document recent changes in this proposal from earlier
-versions together with some unresolved issues.
-
-A software can easily extract randomly arranged tags from an XTDB
-files but for a a human reader and for manual editing the XTDB file
-the recommended order is {\bf DatabaseInfo, Defaults} and any {\bf
-  AppendXTDB} tags followed by {\bf Element, Species} and {\bf Phases}
-(with many nested tags).
-
-The main part of the XTDB databas are the {\bf Parameter} and {\bf
-  TPfun} and tags, which can be ordered by the phases or by the
-systems.  For maintaing a database it may be convenient to keep
-parameters inside {\bf BinarySystem} or {\bf TernarySystem} tags.  The
-{\bf TernaryXpol} tags should be together binary parameters.
-
-The {\bf Model} tag should appear before any {\bf Phase} or {\bf
-  Parameter} tags and the {\bf Bibliography} at the end or both in a
-separate{\bf AppendXTBD} file.  The {\bf AppendXTDB} tag, which
-specifices additional files of an XTDB database, allows the database to
-be split on several files.  The {\bf Defaults, DatabaseInfo} and {\bf
-  AppendXTDB} tags and all {\bf Element, Species} and {\bf Phase} tags
-must be present in the primary XTDB file.
-
-With a few exceptions a tag or attribute starts with a capital letter
-and if it consists of two or more parts, such as {\em NumberOf}, the
-second part is joined without hyphen or underscore but starts with a
-capital letter. 
 
 \end{appendices}
 
 \end{document}
+
 
