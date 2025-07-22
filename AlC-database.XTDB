@@ -1,0 +1,108 @@
+<XTDB version="0.1.5">
+<!-- Al-C database in XTDB format as example in Calphad publication 2025 -->
+<Defaults LowT="10" HighT="6000" Elements="VA /-" />
+<Element Id="AL" Refstate="FCC_A1" Mass="26.982" H298="4577.3" S298="28.322" />
+<Element Id="C" Refstate="GRAPHITE" Mass="12.011" H298="1054" S298="5.7423" />
+<Species Id="VA" Stoichiometry="VA" />
+<Species Id="AL" Stoichiometry="AL" />
+<Species Id="C" Stoichiometry="C" />
+<Phase Id="LIQUID" Configuration="CEF" State="L" >
+  <Sublattices NumberOf="1" Multiplicities="1" >
+    <Constituents Sublattice="1" List="AL C" />
+  </Sublattices>
+ <AmendPhase Models="LIQ2STATE" />
+</Phase>
+<Phase Id="AL4C3" Configuration="CEF" State="S" >
+  <Crystallography PearsonSymbol="hR21" SpaceGroup="166" Prototype="Al4C3" />
+  <Sublattices NumberOf="2" Multiplicities="4 3" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="BCC_A2" Configuration="CEF" State="S" >
+  <Crystallography Structurbericht="A2" PearsonSymbol="cI2" Prototype="W" />
+  <Sublattices NumberOf="2" Multiplicities="1 3" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C VA" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="DIAMOND" Configuration="CEF" State="S" >
+  <Crystallography StructurBerict="A4" PearsonSymbol="cF8" Prototype="C" />
+  <Sublattices NumberOf="1" Multiplicities="1" >
+    <Constituents Sublattice="1" List="C" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="FCC_A1" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="A1" PearsonSymbol="cF4" Prototype="Cu" />
+  <Sublattices NumberOf="2" Multiplicities="1 1" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C VA" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="GRAPHITE" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="A9" PearsonSymbol="hP4"  Prototype="C" />
+  <Sublattices NumberOf="1" Multiplicities="1" >
+    <Constituents Sublattice="1" List="C" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="HCP_A3" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="A3" PearsonSymbol="hP2" Prototype="Mg" />
+  <Sublattices NumberOf="2" Multiplicities="1 0.5" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C VA" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<TPfun Id="R"     Expr="8.31451;" />
+<TPfun Id="RTLNP" Expr="R*T*LN(1.0E-5)*P);" />
+<TPfun Id="G0AL4C3" Expr=" -277339-.005423368*T**2;" /> 
+<TPfun Id="GTSERAL" Expr=" -.001478307*T**2-7.83339395E-07*T**3;" /> 
+<TPfun Id="GTSERCC" Expr=" -.00029531332*T**2-3.3998492E-16*T**5;" /> 
+<TPfun Id="G0BCCAL" Expr=" +GHSERAL+10083;" /> 
+<TPfun Id="G0HCPAL" Expr=" +GHSERAL+5481;" /> 
+<TPfun Id="GHSERAL" Expr=" -8160+GTSERAL;" /> 
+<TPfun Id="GHSERCC" Expr=" -17752.213+GEGRACC+GTSERCC;" /> 
+<TPfun Id="G0DIACC" Expr=" -16275.202-9.1299452E-05*T**2-2.1653414E-16*T**5;" /> 
+<TPfun Id="GEDIACC" Expr=" +0.2318*GEIN(+813.6)+.01148*GEIN(+345.4)
+       -0.236743*GEIN(+1601.4);" /> 
+<TPfun Id="G0LIQAL" Expr=" -209-3.777*T-.00045*T**2;" /> 
+<TPfun Id="G0LIQCC" Expr=" +63887-8.2*T-.0004185*T**2;" /> 
+<TPfun Id="GEGRACC" Expr=" -0.5159523*GEIN(+1953.3)+0.121519*GEIN(+448)
+       +0.3496843*GEIN(+947)+.0388463*GEIN(+192.7)+.005840323*GEIN(+64.5);" /> 
+<Parameter Id="G(LIQUID,AL;0)" Expr=" +G0LIQAL;" Bibref="21HE" />
+<Parameter Id="LNTH(LIQUID,AL;0)" Expr=" +LN(+254);" Bibref="21HE" />
+<Parameter Id="GD(LIQUID,AL;0)" Expr=" +13398-R*T-0.16597*T*LN(+T);" Bibref="21HE" />
+<Parameter Id="G(LIQUID,C;0)" Expr=" +G0LIQCC;" Bibref="21HE" />
+<Parameter Id="LNTH(LIQUID,C;0)" Expr=" +LN(+1400);" Bibref="21HE" />
+<Parameter Id="GD(LIQUID,C;0)" Expr=" +59147-49.61*T+2.9806*T*LN(+T);" Bibref="21HE" />
+<Parameter Id="G(LIQUID,AL,C;0)" Expr=" +20994-22*T;" Bibref="21HE" />
+<Parameter Id="G(AL4C3,AL:C;0)" Expr=" +G0AL4C3-3.08*GEIN(+401)+3.08*GEIN(+1077);" Bibref="21HE" />
+<Parameter Id="LNTH(AL4C3,AL:C;0)" Expr=" +LN(+401);" Bibref="21HE" />
+<Parameter Id="G(BCC_A2,AL:C;0)" Expr=" +GTSERAL+3*GTSERCC+1006844;" Bibref="21HE" />
+<Parameter Id="LNTH(BCC_A2,AL:C;0)" Expr=" +LN(+863);" Bibref="21HE" />
+<Parameter Id="G(BCC_A2,AL:VA;0)" Expr=" +G0BCCAL;" Bibref="21HE" />
+<Parameter Id="LNTH(BCC_A2,AL:VA;0)" Expr=" +LN(+233);" Bibref="21HE" />
+<Parameter Id="G(BCC_A2,AL:C,VA;0)" Expr=" -819896+14*T;" Bibref="21HE" />
+<Parameter Id="G(DIAMOND,C;0)" Expr=" +G0DIACC+GEDIACC;" Bibref="21HE" />
+<Parameter Id="LNTH(DIAMOND,C;0)" Expr=" +LN(+1601.4);" Bibref="21HE" />
+<Parameter Id="G(FCC_A1,AL:C;0)" Expr=" +GTSERAL+GTSERCC+57338;" Bibref="21HE" />
+<Parameter Id="LNTH(FCC_A1,AL:C;0)" Expr=" +LN(+549);" Bibref="21HE" />
+<Parameter Id="G(FCC_A1,AL:VA;0)" Expr=" +GHSERAL;" Bibref="21HE" />
+<Parameter Id="LNTH(FCC_A1,AL:VA;0)" Expr=" +LN(+283);" Bibref="21HE" />
+<Parameter Id="G(FCC_A1,AL:C,VA;0)" Expr=" -70345;" Bibref="21HE" />
+<Parameter Id="G(GRAPHITE,C;0)" Expr=" +GHSERCC;" Bibref="21HE" />
+<Parameter Id="LNTH(GRAPHITE,C;0)" Expr=" +LN(+1953.3);" Bibref="21HE" />
+<Parameter Id="G(HCP_A3,AL:C;0)" Expr=" +GTSERAL+0.5*GTSERCC+2176775;" Bibref="21HE" />
+<Parameter Id="LNTH(HCP_A3,AL:C;0)" Expr=" +LN(+452);" Bibref="21HE" />
+<Parameter Id="G(HCP_A3,AL:VA;0)" Expr=" +G0HCPAL;" Bibref="21HE" />
+<Parameter Id="LNTH(HCP_A3,AL:VA;0)" Expr=" +LN(+263);" Bibref="21HE" />
+<Parameter Id="G(HCP_A3,AL:C,VA;0)" Expr=" 0;" Bibref="21HE" />
+<Bibliography>
+<Bibitem Id="21HE" Text="Z. He, B. Kaplan, H. Mao, M. Selleby, Calphad (2021) 102250" /> 
+</Bibliography>
+</XTDB>
