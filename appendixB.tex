@@ -1,0 +1,474 @@
+\documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+% needed to have pdf files 
+\pdfsuppresswarningpagegroup=1
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%% \usepackage{lineno}
+
+%---------------------------------------------- begin bosse special
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+% end of XML tag
+\newcommand\eoxml{/\hspace{-4pt}>}
+
+\usepackage{xcolor}
+\usepackage{ulem}
+\usepackage{framed}
+
+%footnote using capital letter
+%\renewcommand{\thefootnote}{\Alph{footnote}}
+%\renewcommand{\thefootnote}{{\arabic{footnote}}
+
+% For appendices
+%\usepackage[titletoc,title,header]{appendix}
+%------------------------------------------------- end bosse special
+
+\journal{Calphad}
+
+\usepackage{graphicx,subfigure}              % with figures
+\usepackage[titletoc,title,header]{appendix}
+
+\begin{document}
+
+%% \begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for theassociated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for theassociated footnote;
+%% use the core command within \author for corresponding author footnotes;
+%% use the cortext command for theassociated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{XTDB, an XML based format for Calphad databases}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \address[label1]{}
+%% \address[label2]{}
+
+% 1 bo.sundman@GMAIL.COM
+% 2 ABE.Taichi@NIMS.GO.JP
+% 3 avdw@BROWN.EDU                  Axel van de Walle
+% 4 b.hallstedt@IWM.RWTH-AACHEN.DE
+% 5 erwin.povoden-karadeniz@TUWIEN.AC.AT
+% 6 aurelie.jacob@tuwien.ac.at 
+% 7 fabio.miani@UNIUD.IT
+% 8 fan.zhang@COMPUTHERM.COM
+% 9 shuanglin.chen@COMPUTHERM.COM
+% 10 lina@THERMOCALC.SE            Lina Kjellqvist
+% 11 reza@THERMOCALC.SE            Reza Naraghi
+% 12 malin@KTH.SE                  Malin Selleby
+% 13 nathdupin@CTHERMO.FR          Nathalie Dupin
+% 14 richard.otis@OUTLOOK.COM
+% 15 urkattner@GMAIL.COM           Ursula R Kattner
+% 16 ft@gtt-technologies.de        Florian Tang
+% 17 alexander.pisch@simap.grenoble-inp.fr 
+
+  \author[bosse]{Bo Sundman}       % 1
+  \ead{bo.sundman@gmail.com}
+  \author[fabio]{Fabio Miani}      % 2 fabio.miani@uniud.it
+  \author[alex]{Axel van de Walle} % 3 avdw@brown.edu
+  \author[bengt]{Bengt Hallstedt}  % 4 b.hallstedt@iwm.rwth-aachen.de
+  \author[urk]{Ursula R Kattner}   % 15 urkattner@gmail.com
+  \author[gtt]{Florian Tang}       % 16 ft@gtt-technologies.de
+  \author[abe]{Taichi Abe}         % 2 abe.taichi@nims.go.jp
+  \author[tcsab]{Reza Naraghi}      % 11 reza@thermocalc.se
+  \author[tuwien]{Erwin Povoden-Karadeniz} %erwin.povoden-karadeniz@tuwien.ac.at
+  \author[tuwien]{Aurelie Jacob}  % 6 aurelie.jacob@tuwien.ac.at 
+  \author[computherm]{Shuanglin Chen} % 9 shuanglin.chen@computherm.com
+%  \author[computherm]{Fan Zhang}      % 8 fan.zhang@computherm.com
+%  \author[tcsab]{Lina Kjellqvist}   % 10 lina@thermocalc.se
+%  \author[nath]{Nathalie Dupin}    % 13 nathdupin@cthermo.fr
+  \author[richard]{Richard Otis}   % 14 richard.otis@outlook.com
+  \author[shobu]{Kazuhisa Shobu}   % 13 Catcalc k,shobu@rictsystems.com
+  \author[kth]{Malin Selleby}      % 12 malin@kth.se     
+  \author[simap]{Alexander Pisch} % alexander.pisch@simap.grenoble-inp.fr
+
+  \address[bosse]{OpenCalphad, 9 All{\'e}e de l'Acerma, 91190 Gif sur
+    Yvette, France}
+  \address[fabio]{DPIA, University of Udine, Via delle Scienze 208, 33100 Udine, Italy}
+  \address[alex]{School of Engineering, Brown University, Providence, RI 02912, USA}
+  \address[bengt]{IWM, RWTH Aachen University, Augustinerbach 4, 52062
+    Aachen, Germany}
+  \address[urk]{MSE, NIST, 100 Bureau Drive, Stop 8555, Gaithersburg, MD 20899, USA}
+  \address[gtt]{GTT-Technologies, 52134 Herzogenrath, Germany}
+  \address[abe]{NIMS, Sengen, Tsukuba, Japan}
+  \address[tcsab]{Thermo-Calc Software AB,
+    R{\aa}sundav{\"a}gen 18, 169 67 Solna, Sweden}
+  \address[tuwien]{TU Wien, Getreidemarkt 9, 1060
+    Vienna, Austria}
+  \address[computherm]{CompuTherm, Yellowstone Dr.,
+    Madison, WI 53719, USA}
+%  \address[nath]{Calcul Thermodynamique, 63670 Orcet, France}
+%  \address[richard]{Proteus Space Inc, Los Angeles, CA 90021, USA}
+  \address[richard]{California Institute of Technology, Pasadena, CA 91109 USA}
+  \address[shobu]{RICT, Inc. 674-18, Tashiro-hoka, Tosu, Saga, 841-0016, Japan.}
+  \address[kth]{MSE, KTH Royal Institute of Technology,
+    Brinellv{\"a}gen 23, 100 44 Stockholm, Sweden}
+  \address[simap]{SIMAP, 1130, Rue de la Piscine, 38402 Saint-Martin
+    d'H{\`e}res, France}
+
+{\large \bf As sent for publication}
+
+\begin{abstract}
+  The Calphad method uses models which depend on assessed parameters
+  to describe the thermodynamic properties of materials.  These model
+  parameters are assessed by researchers and students using
+  experimental and theoretical data on binary and ternary systems
+  which can be merged to multicomponent databases and used to
+  calculate properties and simulate processes for a wide range of
+  materials.
+
+  There are several different software using the Calphad method for
+  calculations and they can use slightly different models and database
+  formats.  This paper will give a short background to the current
+  state of database development and proposes a new format based on the
+  eXtensive Markup Language (XML) as a unified database format.  This
+  change is particularly important as several new models for the pure
+  elements are currently introduced in the Calphad databases.
+
+%  Some features or peculiarities of the current databases are also discussed.
+
+\end{abstract}
+
+
+\newpage
+
+\begin{appendix}
+
+\setcounter{equation}{0}
+\renewcommand{\theequation}{C\arabic{equation}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{C\arabic{figure}}
+
+\section{Definition of XTDB tags}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix B Examples of an XTDB file
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{equation}{0}
+\renewcommand{\theequation}{B\arabic{equation}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{B\arabic{figure}}
+
+\section{Examples of XTDB files}\label{sc:examples}
+
+\subsection{A complete Al-C database}\label{sc:alcexample}
+
+{\small
+\begin{verbatim}
+<XTDB version="0.1.5">
+<Defaults LowT="10" HighT="6000" Elements="VA /-" />
+<Element Id="AL" Refstate="FCC_A1" Mass="26.982" H298="4577.3" S298="28.322" />
+<Element Id="C" Refstate="GRAPHITE" Mass="12.011" H298="1054" S298="5.7423" />
+<Species Id="VA" Stoichiometry="VA" />
+<Species Id="AL" Stoichiometry="AL" />
+<Species Id="C" Stoichiometry="C" />
+<Phase Id="LIQUID" Configuration="CEF" State="L" >
+  <Sublattices NumberOf="1" Multiplicities="1" >
+    <Constituents Sublattice="1" List="AL C" />
+  </Sublattices>
+ <AmendPhase Models="LIQ2STATE" />
+</Phase>
+<Phase Id="AL4C3" Configuration="CEF" State="S" >
+  <Crystallography PearsonSymbol="hR21" SpaceGroup="166" Prototype="Al4C3" />
+  <Sublattices NumberOf="2" Multiplicities="4 3" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="BCC_A2" Configuration="CEF" State="S" >
+  <Crystallography Structurbericht="A2" PearsonSymbol="cI2" Prototype="W" />
+  <Sublattices NumberOf="2" Multiplicities="1 3" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C VA" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="DIAMOND" Configuration="CEF" State="S" >
+  <Crystallography StructurBerict="A4" PearsonSymbol="cF8" Prototype="C" />
+  <Sublattices NumberOf="1" Multiplicities="1" >
+    <Constituents Sublattice="1" List="C" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="FCC_A1" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="A1" PearsonSymbol="cF4" Prototype="Cu" />
+  <Sublattices NumberOf="2" Multiplicities="1 1" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C VA" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="GRAPHITE" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="A9" PearsonSymbol="hP4"  Prototype="C" />
+  <Sublattices NumberOf="1" Multiplicities="1" >
+    <Constituents Sublattice="1" List="C" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<Phase Id="HCP_A3" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="A3" PearsonSymbol="hP2" Prototype="Mg" />
+  <Sublattices NumberOf="2" Multiplicities="1 0.5" >
+    <Constituents Sublattice="1" List="AL" />
+    <Constituents Sublattice="2" List="C VA" />
+  </Sublattices>
+  <AmendPhase Models="GEIN" />
+</Phase>
+<TPfun Id="R"     Expr="8.31451;" />
+<TPfun Id="RTLNP" Expr="R*T*LN(1.0E-5)*P);" />
+<TPfun Id="G0AL4C3" Expr=" -277339-.005423368*T**2;" /> 
+<TPfun Id="GTSERAL" Expr=" -.001478307*T**2-7.83339395E-07*T**3;" /> 
+<TPfun Id="GTSERCC" Expr=" -.00029531332*T**2-3.3998492E-16*T**5;" /> 
+<TPfun Id="G0BCCAL" Expr=" +GHSERAL+10083;" /> 
+<TPfun Id="G0HCPAL" Expr=" +GHSERAL+5481;" /> 
+<TPfun Id="GHSERAL" Expr=" -8160+GTSERAL;" /> 
+<TPfun Id="GHSERCC" Expr=" -17752.213+GEGRACC+GTSERCC;" /> 
+<TPfun Id="G0DIACC" Expr=" -16275.202-9.1299452E-05*T**2-2.1653414E-16*T**5;" /> 
+<TPfun Id="GEDIACC" Expr=" +0.2318*GEIN(+813.6)+.01148*GEIN(+345.4)
+       -0.236743*GEIN(+1601.4);" /> 
+<TPfun Id="G0LIQAL" Expr=" -209-3.777*T-.00045*T**2;" /> 
+<TPfun Id="G0LIQCC" Expr=" +63887-8.2*T-.0004185*T**2;" /> 
+<TPfun Id="GEGRACC" Expr=" -0.5159523*GEIN(+1953.3)+0.121519*GEIN(+448)
+       +0.3496843*GEIN(+947)+.0388463*GEIN(+192.7)+.005840323*GEIN(+64.5);" /> 
+<Parameter Id="G(LIQUID,AL;0)" Expr=" +G0LIQAL;" Bibref="21HE" />
+<Parameter Id="LNTH(LIQUID,AL;0)" Expr=" +LN(+254);" Bibref="21HE" />
+<Parameter Id="GD(LIQUID,AL;0)" Expr=" +13398-R*T-0.16597*T*LN(+T);" Bibref="21HE" />
+<Parameter Id="G(LIQUID,C;0)" Expr=" +G0LIQCC;" Bibref="21HE" />
+<Parameter Id="LNTH(LIQUID,C;0)" Expr=" +LN(+1400);" Bibref="21HE" />
+<Parameter Id="GD(LIQUID,C;0)" Expr=" +59147-49.61*T+2.9806*T*LN(+T);" Bibref="21HE" />
+<Parameter Id="G(LIQUID,AL,C;0)" Expr=" +20994-22*T;" Bibref="21HE" />
+<Parameter Id="G(AL4C3,AL:C;0)" Expr=" +G0AL4C3-3.08*GEIN(+401)+3.08*GEIN(+1077);" Bibref="21HE" />
+<Parameter Id="LNTH(AL4C3,AL:C;0)" Expr=" +LN(+401);" Bibref="21HE" />
+<Parameter Id="G(BCC_A2,AL:C;0)" Expr=" +GTSERAL+3*GTSERCC+1006844;" Bibref="21HE" />
+<Parameter Id="LNTH(BCC_A2,AL:C;0)" Expr=" +LN(+863);" Bibref="21HE" />
+<Parameter Id="G(BCC_A2,AL:VA;0)" Expr=" +G0BCCAL;" Bibref="21HE" />
+<Parameter Id="LNTH(BCC_A2,AL:VA;0)" Expr=" +LN(+233);" Bibref="21HE" />
+<Parameter Id="G(BCC_A2,AL:C,VA;0)" Expr=" -819896+14*T;" Bibref="21HE" />
+<Parameter Id="G(DIAMOND,C;0)" Expr=" +G0DIACC+GEDIACC;" Bibref="21HE" />
+<Parameter Id="LNTH(DIAMOND,C;0)" Expr=" +LN(+1601.4);" Bibref="21HE" />
+<Parameter Id="G(FCC_A1,AL:C;0)" Expr=" +GTSERAL+GTSERCC+57338;" Bibref="21HE" />
+<Parameter Id="LNTH(FCC_A1,AL:C;0)" Expr=" +LN(+549);" Bibref="21HE" />
+<Parameter Id="G(FCC_A1,AL:VA;0)" Expr=" +GHSERAL;" Bibref="21HE" />
+<Parameter Id="LNTH(FCC_A1,AL:VA;0)" Expr=" +LN(+283);" Bibref="21HE" />
+<Parameter Id="G(FCC_A1,AL:C,VA;0)" Expr=" -70345;" Bibref="21HE" />
+<Parameter Id="G(GRAPHITE,C;0)" Expr=" +GHSERCC;" Bibref="21HE" />
+<Parameter Id="LNTH(GRAPHITE,C;0)" Expr=" +LN(+1953.3);" Bibref="21HE" />
+<Parameter Id="G(HCP_A3,AL:C;0)" Expr=" +GTSERAL+0.5*GTSERCC+2176775;" Bibref="21HE" />
+<Parameter Id="LNTH(HCP_A3,AL:C;0)" Expr=" +LN(+452);" Bibref="21HE" />
+<Parameter Id="G(HCP_A3,AL:VA;0)" Expr=" +G0HCPAL;" Bibref="21HE" />
+<Parameter Id="LNTH(HCP_A3,AL:VA;0)" Expr=" +LN(+263);" Bibref="21HE" />
+<Parameter Id="G(HCP_A3,AL:C,VA;0)" Expr=" 0;" Bibref="21HE" />
+<Bibliography>
+<Bibitem Id="21HE" Text="Z. He, B. Kaplan, H. Mao, M. Selleby, Calphad (2021) 102250" /> 
+</Bibliography>
+</XTDB>
+\end{verbatim}
+}
+
+\subsection{A $\sigma$ phase with EBEF and DisorderedPart}\label{sc:sigma-ebef}
+
+{\small
+\begin{verbatim}
+<Element Id="AL" Refstate="FCC_A1" Mass="26.982" H298="4577.3" S298="28.322" />
+<Element Id="Cr" Refstate="BCC_A2" Mass="51.996" H298="4050" S298="23.56" />
+<Element Id="FE" Refstate="BCC_A2" Mass="55.847" H298="4489" S298="27.28" />
+
+<Phase Id="SIGMA" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="D8_b" PearsonSymbol="tP30" SpaceGroup="P4_2/mnm" />
+  <Sublattices NumberOf="5" Multiplicities="2 4 8 8 8" >
+    <Constituents Sublattice="1" List="AL CR FE" />
+    <Constituents Sublattice="2" List="AL CR FE" />
+    <Constituents Sublattice="3" List="AL CR FE" />
+    <Constituents Sublattice="4" List="AL CR FE" />
+    <Constituents Sublattice="5" List="AL CR FE" />
+  </Sublattices>
+  <AmendPhase > <!-- EBEF is used for the parameters -->
+    <DisorderedPart Sum="5" />
+  </AmendPhase>
+</Phase>
+
+<!-- Endmember parameters are in the disordered part. They are for a single atom and
+     should be multiplied by 30 (the sum of the multiplicities) by the software. -->
+
+<Parameter Id="G(SIGMA,AL;0)" Expr=" +GSIGMA_AL;" Bibref="SGTE2025"/>
+<Parameter Id="G(SIGMA,CR;0)" Expr=" +GSIGMA_CR;" Bibref="SGTE2025"/>
+<Parameter Id="G(SIGMA,FE;0)" Expr=" +GSIGMA_FE;" Bibref="SGTE2025"/>
+
+<!-- Below the 20 EBEF excess endmember parameters for the ordered part of Al-Cr.  
+     Without wildcards there are 32 endmembers.  The * can represent any element -->
+
+<Parameter Id="G(SIGMA,AL:CR:*:*:*;0)" Expr=" SIGMA_X_AL1CR2;" />
+<Parameter Id="G(SIGMA,AL:*:CR:*:*;0)" Expr=" SIGMA_X_AL1CR3;" />
+<Parameter Id="G(SIGMA,AL:*:*:CR:*;0)" Expr=" SIGMA_X_AL1CR4;" />
+<Parameter Id="G(SIGMA,AL:*:*:*:CR;0)" Expr=" SIGMA_X_AL1CR5;" />
+<Parameter Id="G(SIGMA,*:AL:CR:*:*;0)" Expr=" SIGMA_X_AL2CR3;" />
+<Parameter Id="G(SIGMA,*:AL:*:CR:*;0)" Expr=" SIGMA_X_AL2CR4;" />
+<Parameter Id="G(SIGMA,*:AL:*:*:CR;0)" Expr=" SIGMA_X_AL2CR5;" />
+<Parameter Id="G(SIGMA,*:*:AL:CR:*;0)" Expr=" SIGMA_X_AL3CR4;" />
+<Parameter Id="G(SIGMA,*:*:AL:*:CR;0)" Expr=" SIGMA_X_AL3CR5;" />
+<Parameter Id="G(SIGMA,*:*:*:AL:CR;0)" Expr=" SIGMA_X_AL4CR5;" />
+<Parameter Id="G(SIGMA,CR:AL:*:*:*;0)" Expr=" SIGMA_X_CR1AL2;" />
+<Parameter Id="G(SIGMA,CR:*:AL:*:*;0)" Expr=" SIGMA_X_CR1AL3;" />
+<Parameter Id="G(SIGMA,CR:*:*:AL:*;0)" Expr=" SIGMA_X_CR1AL4;" />
+<Parameter Id="G(SIGMA,CR:*:*:*:AL;0)" Expr=" SIGMA_X_CR1AL5;" />
+<Parameter Id="G(SIGMA,*:CR:AL:*:*;0)" Expr=" SIGMA_X_CR2AL3;" />
+<Parameter Id="G(SIGMA,*:CR:*:AL:*;0)" Expr=" SIGMA_X_CR2AL4;" />
+<Parameter Id="G(SIGMA,*:CR:*:*:AL;0)" Expr=" SIGMA_X_CR2AL5;" />
+<Parameter Id="G(SIGMA,*:*:CR:AL:*;0)" Expr=" SIGMA_X_CR3AL4;" />
+<Parameter Id="G(SIGMA,*:*:CR:*:AL;0)" Expr=" SIGMA_X_CR3AL5;" />
+<Parameter Id="G(SIGMA,*:*:*:CR:AL;0)" Expr=" SIGMA_X_CR4AL5;" />
+
+<!-- There are also 20 EBEF endmember parameters for Al-Fe and Cr-Fe -->
+
+<Parameter Id="G(SIGMA,AL:FE:*:*:*;0)" Expr=" SIGMA_X_AL1FE2;" />
+
+<Parameter Id="G(SIGMA,CR:FE:*:*:*;0)" Expr=" SIGMA_X_CR1FE2;" />
+
+\end{verbatim}
+}
+
+The {\bf TPfun}s SIGMA\_X\_AsBt can be fitted to DFT calculated endmembers.
+In a ternary EBEF there are 63 parameters, without wildcards there are
+$3^5 = 243$ endmembers.
+
+\subsection{A $\sigma$ phase with EBEF and DisorderedPart}\label{sc:sigma-ebef2}
+
+Below is a suggestion of a future possibility for a shorter notation.
+
+{\small
+\begin{verbatim}
+<Element Id="AL" Refstate="FCC_A1" Mass="26.982" H298="4577.3" S298="28.322" />
+<Element Id="Cr" Refstate="BCC_A2" Mass="51.996" H298="4050" S298="23.56" />
+<Element Id="FE" Refstate="BCC_A2" Mass="55.847" H298="4489" S298="27.28" />
+
+<Phase Id="SIGMA" Configuration="CEF" State="S" >
+  <Crystallography StructurBericht="D8_b" PearsonSymbol="tP30" SpaceGroup="P4_2/mnm" />
+  <Sublattices NumberOf="5" Multiplicities="2 4 8 8 8" >
+    <Constituents Sublattice="1" Wyckoff="2a" List="AL CR FE" />
+    <Constituents Sublattice="2" Wyckoff="4f" List="AL CR FE" />
+    <Constituents Sublattice="3" Wyckoff="8i1" List="AL CR FE" />
+    <Constituents Sublattice="4" Wyckoff="8i2" List="AL CR FE" />
+    <Constituents Sublattice="5" Wyckoff="8j" List="AL CR FE" />
+  </Sublattices>
+  <AmendPhase > Models="EBEF"  <!-- EBEF notation is used for the parameters -->
+    <DisorderedPart Sum="5" />
+  </AmendPhase>
+</Phase>
+
+<!-- Endmember parameters in the disordered part as in~\ref{sc:sigma-ebef.}
+     The notation below use @ character indicate the sublattice of the constituent
+     in the ordered part.  -->
+
+<Parameter Id="G(SIGMA,AL@1:CR@2)" Expr=" SIGMA_X_AL1CR2;" />
+<Parameter Id="G(SIGMA,AL@1:CR@3)" Expr=" SIGMA_X_AL1CR3;" />
+<Parameter Id="G(SIGMA,AL@1:CR@4)" Expr=" SIGMA_X_AL1CR4;" />
+<Parameter Id="G(SIGMA,AL@1:CR@5)" Expr=" SIGMA_X_AL1CR5;" />
+<Parameter Id="G(SIGMA,AL@2:CR@3)" Expr=" SIGMA_X_AL2CR3;" />
+<Parameter Id="G(SIGMA,AL@2:CR@4)" Expr=" SIGMA_X_AL2CR4;" />
+
+\end{verbatim}
+}
+
+\subsection{An FCC phase with wildcards and DisorderedPart}\label{sc:fcc-2part}
+
+{\small
+\begin{verbatim}
+<Element Id="AL" Refstate="FCC_A1" Mass="26.982" H298="4577.3" S298="28.322" />
+<Element Id="Cr" Refstate="BCC_A2" Mass="51.996" H298="4050" S298="23.56" />
+<Element Id="FE" Refstate="BCC_A2" Mass="55.847" H298="4489" S298="27.28" />
+<Element Id="C"  Refstate="GRAPHITE" Mass="12.011" H298="1054" S298="5.7423" />
+
+<Phase Id="FCC_4SL" Configuration="CEF" State="S" >
+  <Sublattices NumberOf="5" Multiplicities="0.25 0.25 0.25 0.25 1" >
+    <Constituents Sublattice="1" List="AL CR FE" />
+    <Constituents Sublattice="2" List="AL CR FE" />
+    <Constituents Sublattice="3" List="AL CR FE" />
+    <Constituents Sublattice="4" List="AL CR FE" />
+    <Constituents Sublattice="5" List="Va C" />
+  </Sublattices>
+  <AmendPhase Models="IHJREST GEIN FCC4PERM" >
+    <DisorderedPart Sum="4" Subtract="N" />
+  </AmendPhase>
+</Phase>
+
+<!-- The first 4 sublattices are for L1_2 and L1_0 ordering.
+     Endmember parameters in the disordered part with no ordering.
+     There can also be excess parameters to describe the disordered state.
+     The disordered parameters are for the same phase, but have fewer sublattices. -->
+<Parameter Id="G(FCC_4SL,AL:VA;0)" Expr=" +GHSERAL;" Bibref="21HE" />
+<Parameter Id="LNTH(FCC_4SL,AL:VA;0)" Expr=" +LN(+283);" Bibref="21HE" />
+<Parameter Id="G(FCC_4SL,AL:C;0)" Expr=" +GTSERAL+GTSERCC+57338;" Bibref="21HE" />
+<Parameter Id="LNTH(FCC_4SL,AL:C;0)" Expr=" +LN(+549);" Bibref="21HE" />
+<Parameter Id="G(FCC_4SL,CR:VA;0)" Expr=" +GFCC_CR;" Bibref="SGTE2025"/>
+<Parameter Id="G(FCC_4SL,FE:VA;0)" Expr=" +GFCC_FE;" Bibref="SGTE2025"/>
+
+<!-- Some excess parameters to descrive the stable disordered phase -->
+<Parameter Id="G(FCC_4SL,AL:C,VA;0)" Expr=" -70345;" Bibref="21HE" />
+<Parameter Id="G(FCC_4SL,AL,CR:VA;0)" Expr=" GFCC_X_ALCR0;" />
+<Parameter Id="G(FCC_4SL,AL,CR:VA;1)" Expr=" GFCC_X_ALCR1;" />
+
+<!-- Some examples of parameters in the ordered part of the FCC phase.
+     A parameter G(FCC_4SL,AL:AL:AL:CR:VA;0) is permuted 4 times.
+     A parameter G(FCC_4SL,AL:AL:CR:CR:VA;0) is permuted 6 times.  -->
+<Parameter Id="G(FCC_4SL,AL:AL:AL:CR:VA;0)" Expr=" GFCC_AL3CR1;" />
+<Parameter Id="G(FCC_4SL,AL:AL:CR:CR:VA;0)" Expr=" GFCC_AL2CR2;" />
+<Parameter Id="G(FCC_4SL,AL:CR:CR:CR:VA;0)" Expr=" GFCC_AL1CR3;" />
+<Parameter Id="G(FCC_4SL,AL:AL:AL:FE:VA;0)" Expr=" GFCC_AL3FE1;" />
+
+<!-- An excess parameters with wildcards using the assumption that the AL-CR
+     interaction is independent of the constituents on the other sublattices.
+     This parameter is also permuted 4 times. -->
+<Parameter Id="G(FCC_4SL,AL,CR:*:*:*:VA;0)" Expr=" GFCC_XO_ALCR;" />
+
+<!-- This parameter approximate SRO both in ordered and disordered,
+     it is permuted 6 times.  -->
+<Parameter Id="G(FCC_4SL,AL,CR:AL,CR:*:*:VA;0)" Expr=" GFCC_SRO_ALCR;" />
+
+\end{verbatim}
+}
+
+
+\end{appendix}
+
+\end{document}
+

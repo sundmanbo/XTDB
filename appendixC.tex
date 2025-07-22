@@ -1,0 +1,322 @@
+\documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+% needed to have pdf files 
+\pdfsuppresswarningpagegroup=1
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%% \usepackage{lineno}
+
+%---------------------------------------------- begin bosse special
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+% end of XML tag
+\newcommand\eoxml{/\hspace{-4pt}>}
+
+\usepackage{xcolor}
+\usepackage{ulem}
+\usepackage{framed}
+
+%footnote using capital letter
+%\renewcommand{\thefootnote}{\Alph{footnote}}
+%\renewcommand{\thefootnote}{{\arabic{footnote}}
+
+% For appendices
+%\usepackage[titletoc,title,header]{appendix}
+%------------------------------------------------- end bosse special
+
+\journal{Calphad}
+
+\usepackage{graphicx,subfigure}              % with figures
+\usepackage[titletoc,title,header]{appendix}
+
+\begin{document}
+
+%% \begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for theassociated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for theassociated footnote;
+%% use the core command within \author for corresponding author footnotes;
+%% use the cortext command for theassociated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{XTDB, an XML based format for Calphad databases}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \address[label1]{}
+%% \address[label2]{}
+
+% 1 bo.sundman@GMAIL.COM
+% 2 ABE.Taichi@NIMS.GO.JP
+% 3 avdw@BROWN.EDU                  Axel van de Walle
+% 4 b.hallstedt@IWM.RWTH-AACHEN.DE
+% 5 erwin.povoden-karadeniz@TUWIEN.AC.AT
+% 6 aurelie.jacob@tuwien.ac.at 
+% 7 fabio.miani@UNIUD.IT
+% 8 fan.zhang@COMPUTHERM.COM
+% 9 shuanglin.chen@COMPUTHERM.COM
+% 10 lina@THERMOCALC.SE            Lina Kjellqvist
+% 11 reza@THERMOCALC.SE            Reza Naraghi
+% 12 malin@KTH.SE                  Malin Selleby
+% 13 nathdupin@CTHERMO.FR          Nathalie Dupin
+% 14 richard.otis@OUTLOOK.COM
+% 15 urkattner@GMAIL.COM           Ursula R Kattner
+% 16 ft@gtt-technologies.de        Florian Tang
+% 17 alexander.pisch@simap.grenoble-inp.fr 
+
+  \author[bosse]{Bo Sundman}       % 1
+  \ead{bo.sundman@gmail.com}
+  \author[fabio]{Fabio Miani}      % 2 fabio.miani@uniud.it
+  \author[alex]{Axel van de Walle} % 3 avdw@brown.edu
+  \author[bengt]{Bengt Hallstedt}  % 4 b.hallstedt@iwm.rwth-aachen.de
+  \author[urk]{Ursula R Kattner}   % 15 urkattner@gmail.com
+  \author[gtt]{Florian Tang}       % 16 ft@gtt-technologies.de
+  \author[abe]{Taichi Abe}         % 2 abe.taichi@nims.go.jp
+  \author[tcsab]{Reza Naraghi}      % 11 reza@thermocalc.se
+  \author[tuwien]{Erwin Povoden-Karadeniz} %erwin.povoden-karadeniz@tuwien.ac.at
+  \author[tuwien]{Aurelie Jacob}  % 6 aurelie.jacob@tuwien.ac.at 
+  \author[computherm]{Shuanglin Chen} % 9 shuanglin.chen@computherm.com
+%  \author[computherm]{Fan Zhang}      % 8 fan.zhang@computherm.com
+%  \author[tcsab]{Lina Kjellqvist}   % 10 lina@thermocalc.se
+%  \author[nath]{Nathalie Dupin}    % 13 nathdupin@cthermo.fr
+  \author[richard]{Richard Otis}   % 14 richard.otis@outlook.com
+  \author[shobu]{Kazuhisa Shobu}   % 13 Catcalc k,shobu@rictsystems.com
+  \author[kth]{Malin Selleby}      % 12 malin@kth.se     
+  \author[simap]{Alexander Pisch} % alexander.pisch@simap.grenoble-inp.fr
+
+  \address[bosse]{OpenCalphad, 9 All{\'e}e de l'Acerma, 91190 Gif sur
+    Yvette, France}
+  \address[fabio]{DPIA, University of Udine, Via delle Scienze 208, 33100 Udine, Italy}
+  \address[alex]{School of Engineering, Brown University, Providence, RI 02912, USA}
+  \address[bengt]{IWM, RWTH Aachen University, Augustinerbach 4, 52062
+    Aachen, Germany}
+  \address[urk]{MSE, NIST, 100 Bureau Drive, Stop 8555, Gaithersburg, MD 20899, USA}
+  \address[gtt]{GTT-Technologies, 52134 Herzogenrath, Germany}
+  \address[abe]{NIMS, Sengen, Tsukuba, Japan}
+  \address[tcsab]{Thermo-Calc Software AB,
+    R{\aa}sundav{\"a}gen 18, 169 67 Solna, Sweden}
+  \address[tuwien]{TU Wien, Getreidemarkt 9, 1060
+    Vienna, Austria}
+  \address[computherm]{CompuTherm, Yellowstone Dr.,
+    Madison, WI 53719, USA}
+%  \address[nath]{Calcul Thermodynamique, 63670 Orcet, France}
+%  \address[richard]{Proteus Space Inc, Los Angeles, CA 90021, USA}
+  \address[richard]{California Institute of Technology, Pasadena, CA 91109 USA}
+  \address[shobu]{RICT, Inc. 674-18, Tashiro-hoka, Tosu, Saga, 841-0016, Japan.}
+  \address[kth]{MSE, KTH Royal Institute of Technology,
+    Brinellv{\"a}gen 23, 100 44 Stockholm, Sweden}
+  \address[simap]{SIMAP, 1130, Rue de la Piscine, 38402 Saint-Martin
+    d'H{\`e}res, France}
+
+{\large \bf As sent for publication}
+
+\begin{abstract}
+  The Calphad method uses models which depend on assessed parameters
+  to describe the thermodynamic properties of materials.  These model
+  parameters are assessed by researchers and students using
+  experimental and theoretical data on binary and ternary systems
+  which can be merged to multicomponent databases and used to
+  calculate properties and simulate processes for a wide range of
+  materials.
+
+  There are several different software using the Calphad method for
+  calculations and they can use slightly different models and database
+  formats.  This paper will give a short background to the current
+  state of database development and proposes a new format based on the
+  eXtensive Markup Language (XML) as a unified database format.  This
+  change is particularly important as several new models for the pure
+  elements are currently introduced in the Calphad databases.
+
+%  Some features or peculiarities of the current databases are also discussed.
+
+\end{abstract}
+
+
+\newpage
+
+\begin{appendix}
+
+\setcounter{equation}{0}
+\renewcommand{\theequation}{C\arabic{equation}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{C\arabic{figure}}
+
+\section{Definition of XTDB tags}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix A XTDB definition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{equation}{0}
+\renewcommand{\theequation}{B\arabic{equation}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{B\arabic{figure}}
+
+\section{Examples of XTDB files}\label{sc:examples}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix B XTDB examples
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{equation}{0}
+\renewcommand{\theequation}{C\arabic{equation}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{C\arabic{figure}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix C The ModelDescriptions tag
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{A tentative ModelDescriptions tag}\label{sc:modeltags}\label{sc:magmod}
+
+This defines the physical models and their model parameter identifiers
+(MPID) used in the XTDB file.  Each software can have its own version.
+
+{\small
+\begin{verbatim}
+<ModelDescriptions Software="OpenCalphad" >
+<!-- This is a short explanation of XTDB model tags and their attributes in OC. -->
+<Magnetic Id="IHJBCC" MPID1="BMAGN" MPID2="TC" Aff=" -1.00" Bibref="82Her" > 
+ <!-- f_below_TC= +1-0.905299383*TAO**(-1)-0.153008346*TAO**3-.00680037095*TAO**9
+                  -.00153008346*TAO**15; and
+    f_above_TC= -.0641731208*TAO**(-5)-.00203724193*TAO**(-15)-.000427820805*TAO**(-25); 
+ in Gmagn=f(TAO)*LN(BMAGN+1) where TAO=T/TC.  Aff is the antiferromagnetic factor.
+ For BCC phase.  TC is a combined Curie/Neel T and BMAGN the Bohr magneton number. -->
+</Magnetic>
+<Magnetic Id="IHJREST"  MPID1="BMAGN" MPID2="TC" Aff=" -3.00" Bibref="82Her" > 
+ <!-- f_below_TC= +1-0.860338755*TAO**(-1)-0.17449124*TAO**3-.00775516624*TAO**9
+                -.0017449124*TAO**15; and 
+    f_above_TC= -.0426902268*TAO**(-5)-.0013552453*TAO**(-15)-.000284601512*TAO**(-25); 
+ in Gmagn=f(TAO)*LN(BMAGN+1) where TAO=T/TC.  For non-bcc phases. -->
+</Magnetic>
+<Magnetic Id="IHJQX" MPID1="BMAGN" MPID2="CT" MPID3="NT" Aff="0" Bibref="01Che 12Xio" > 
+ <!-- f_below_TC= +1-0.842849633*TAO**(-1)-0.174242226*TAO**3-.00774409892*TAO**9
+               -.00174242226*TAO**15-.000646538871*TAO**21; and
+    f_above_TC= -.0261039233*TAO**(-7)-.000870130777*TAO**(-21)-.000184262988*TAO**(-35)
+               -6.65916411E-05*TAO**(-49);
+ in Gmagn=f(TAO)*LN(BMAGN+1) where TAO=T/CT or T/NT.  Aff is redundant.
+ CT is the Curie T and NT the Neel T and BMAGN the average Bohr magneton number. -->
+</Magnetic>
+\end{verbatim}
+}
+
+\newpage
+
+{\small
+\begin{verbatim}
+<Einstein Id="GEIN" MPID1="LNTH" Bibref="01Che 21He" > 
+  <!-- The Gibbs energy due to the Einstein low T vibrational model, 
+           G=1.5*R*THETA+3*R*T*LN(1-EXP(-THETA/T)).
+   The value used for LNTH should be ln(THETA) as this varies with composition
+   in a more physically reasonable way.  When there are multiple THETA the argument
+   of the GEIN functions should be THETA itself as it is a constant. -->
+</Einstein>
+<Liquid2state Id="LIQ2STATE" MPID1="GD"  MPID2="LNTH" Bibref="88Agr 13Bec" > 
+  <!-- Unified model for the liquid and the amorphous state treated as an Einstein solid
+    The GD parameter describes the stable liquid and the transition to the amorphous
+    state.  LNTH is the logarithm of the Einstein THETA of the amorphous phase. -->
+  </Liquid2state>
+<DisorderedPart Disordered=" " Sum=" " Subtract=" " Bibref="97Ans 07Hal" > 
+  <!-- This tag is nested inside the ordered phase tag.  The disordered fractions are 
+    averaged over the number of ordered sublattices indicated by Sum.  The Gibbs energy
+    is calculated separately for the ordered and disordered model parameters and added
+    but the configurational Gibbs energy is calculated only for the ordered phase.  If 
+    the Subtract="Y" is included the Gibbs energy of the ordered phas is calculated 
+    a second time as disordered and subtracted -->
+</DisorderedPart>
+<Permutations Id="FCC4Perm" Bibref="09Sun" > 
+  <!-- An FCC phase with 4 sublattices for the ordered tetrahedron use this model to
+      indicate that parameters with permutations of the same set of constituents on
+      identical sublattices are included only once in the database. -->
+</Permutations>
+<Permutations Id="BCC4Perm" Bibref="09Sun" > 
+  <!-- A BCC phase with 4 sublattices for the ordered asymmetric tetrahedron use this
+     model to indicate that parameters with permutations of the same set of constituents
+     on identical sublattices are included only once in the database. -->
+</Permutations>
+<EEC Id="EEC" Bibref="20Sun" > 
+  <!-- The Equi-Entropy Criterion means that the software must ensure that solid phases
+     with higher entropy than  the liquid phase must not be stable. -->
+</EEC>
+<TernaryXpol Phase=" " Constituents=" " Xpol=" "  Bibref="01Pel" > 
+  <!-- The ternary extrapolation of the binary parameters is specified. -->
+</TernaryXpol>
+<EBEF Id="EBEF" Bibref="18Dup" > 
+   <!-- The Effective Bond Energy Formalism for phases with multiple sublattices using 
+     wildcards, "*".  It also requires the DisorderedPart tag. -->
+</EBEF>
+<Bibliography> <!-- for the models -->
+  <Bibitem Id="82Her" Text="S. Hertzman and B. Sundman, A Thermodynamic analysis of the 
+    Fe-Cr system,' Calphad, Vol 6 (1982) pp 67-80" />
+  <Bibitem Id="88Agr" Text="J. Agren, Thermodynmaics of supercooled liquids and their
+     glass transition, Phys Chem Liq, Vol 18 (1988) pp 123-139" />
+  <Bibitem Id="97Ans" Text="I. Ansara, N. Dupin, H. L. Lukas, B. Sundman, Thermodynamic
+     assessment of the Al-Ni system, J All and Comp, Vol 247 (1997) pp 20-30" />
+  <Bibitem Id="01Che" Text="Q. Chen and B. Sundman, Modeling of Thermodynamic Properties 
+     for BCC, FCC, Liquid and Amorphous Iron, J Phase Eq, Vol 22 (2001) pp 631-644" />
+  <Bibitem Id="01Pel" Text="A. D. Pelton, A General Geometric Thermodynamic Model for 
+     Multicomponent  solutions, Calphad, Vol 25 (2001) pp 319-328" />
+  <Bibitem Id="07Hal" Text="B. Hallstedt, N. Dupin, M. Hillert, L. Hoglund, H. L. Lukas, 
+     J. C. Schuster and N. Solak, Calphad, Vol 31 (2007) pp 28-37" />
+  <Bibitem Id="09Sun" Text="B. Sundman, I. Ohnuma, N. Dupin, U. R. Kattner, S. G. Fries, 
+     An assessment of the Al-Fe system, Acta Mater, Vol 57 (2009) pp 2896-2908" />
+  <Bibitem Id="12Xio" Text="W. Xiong, Q. Chen, P. A. Korzhavyi, M. Selleby, An improved 
+     magnetic model for thermodynamic modeling, Calphad, Vol 39 (2012) pp 11-20" />
+  <Bibitem Id="13Bec" Text="C. A. Becker, J. Agren, M. Baricco, Q Chen, S. A. Decterov, 
+     U. R. Kattner, J. H. Perepezko, G. R. Pottlacher and M. Selleby, Thermodynamic 
+      modelling of liquids, Phys Stat Sol B (2013) pp 1-20" />
+  <Bibitem Id="18Dup" Text="N. Dupin, U. R. Kattner, B. Sundman, M. Palumbo, S. G. Fries, 
+     Implementation of an Effective Bond Energy Formalism, J Res NIST, (2018) 123020" />
+  <Bibitem Id="20Sun" Text="B. Sundman, U. R. Kattner, M. Hillert, M. Selleby, J. Agren, 
+      S. Bigdeli, Q. Chen, A. Dinsdale, B. Hallstedt, A. Khvan, H. Mao and R. Otis, 
+      A method for handling extrapolation of solids, Calphad, Vol 68 (2020) 101737" />
+  <Bibitem Id="21He" Text="Z. He, B. Kaplan, H. Mao, M. Selleby, The third generation
+      Calphad description of Al-C including revision of pure Al and C, Calphad,
+      Vol 72 (2021) 102250" />
+  </Bibliography>
+</ModelDescriptions>
+
+\end{verbatim}
+}
+
+\end{appendix}
+
+\end{document}
+

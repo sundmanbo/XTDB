@@ -1,0 +1,385 @@
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,subfigure}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage[normalem]{ulem}
+\makeindex
+\topmargin 1mm
+\oddsidemargin 1mm
+\evensidemargin 1mm
+\textwidth 160mm
+\textheight 210mm
+\parskip 2mm
+\parindent 3mm
+%
+%\usepackage[firstpage]{draftwatermark}
+%\SetWatermarkScale{4}
+%\setcounter{tocdepth}{1}
+%\setcounter{secnumdepth}{4}
+%\pagestyle{empty}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix A
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{appendix}
+
+%\setcounter{equation}{0}
+%\renewcommand{\theequation}{C\arabic{equation}}
+%\setcounter{figure}{0}
+%\renewcommand{\thefigure}{C\arabic{figure}}
+
+{\bf \Large A summary of the XML tags and attributes}\label{sc:xtdb}
+
+A complete and maybe updated version is available at
+https://github/sundmanbo/XTDB.  Tagnames are {\bf bold} and names of
+attributes are in {\em italics}.  Attributes which are mandatory are
+indicated by a !M to the left.  Some explanations at the end.
+
+\begin{table}[!h]
+  \caption{Global tags}\label{tab:global}
+  \begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+    Tag     & Attributes & Note\\\hline
+
+  XTDB    &         & Containing XML tags for an XTDB database.\\
+!M        & Version & Version of XTDB used for this database.\\
+!M        &Software & Name of software generating the database.\\
+!M        &Date     & Year/month/day the database was written or last edited\\
+!M        &Signature & person or organisation generating the database.\\\hline
+  
+  Defaults & & Optional tag to provide default values of attributes in
+               different XML tags and some other things.  \\
+           & LowT & Default value of low $T$ limit.\\
+           & HighT & Default value of high $T$ limit.\\
+         & Elements & For example ``VA'' (vacancy) and ``/-'' (the electron).\\
+           & GlobalModel & Any model applicable to the whole database.\\\hline
+
+  DatabaseInfo & & Optional tag with information about the database\\
+           & Info & Free text (excluding the characters $< >$ \& ).\\
+           & Date & Last update of the database information.\\\hline
+
+  AppendXTDB & & Optional tag with additional files for the XTDB database.  
+              The files should only contain XTBD tags.\\
+         & Models & The {\bf ModelDescriptions} tag.\\
+         & Parameters & With mainly {\bf Parameter} tags.\\
+         & TPfuns & With some or all {\bf TPfun} tags.\\
+         & Bibliography & With bibliographic tags.\\
+         & Misc    & Whatever the database manager needs.\\\hline
+  \end{tabular}
+\end{table}
+
+% Does not work to provide additional information
+%\begin{itemize}
+%\item A large XTDB file can use this feature to
+%  separate parts of the content on other XTDB files.  All of them
+%  should be specified here using this tag.
+%\item\label{sc:phymod} The Gibbs energy of a phase may hace
+%  contributions from magnetic and other properties modeled using
+%  additional composition dependent parameters.  See the XTDB
+%  documentation for more details.
+%\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{The Element and Species tags}\label{sc:xtdbelements}
+\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
+
+  Element & & Specifies a chemical element in the database.  In addition
+              the vacancy, denoted ``VA'', and the electron, denoted ``/-'',
+              are included to handle defects and ions.\\
+!M          & Id        &  Chemical element symbol, one or two letters, 
+                         for example FE, H.  The Id is case insensitive.\\
+%                         see section~\ref{sc:lettercase}.\\
+          & Refstate  &  Name of the reference phase for the element.\\
+!M          & Mass      &  Mass in g/mol\\
+          & H298      &  Enthalpy difference between 0 and 298.15~K 
+                         in the reference state.\\
+          & S298      &  Entropy difference between 0 and 298.15~K in 
+                         the reference state.\\\hline
+
+  Species & & Specifies a chemical species used as a constituent of phases.  
+                        The elements, except the electron, are also species.\\
+!M          & Id        & Species name. Special rules apply. \\
+                        % see section~\ref{sc:lettercase}.\\
+!M          & Stoichiometry & One or more element {\em Id} each followed by 
+                        an unsigned real or two integers separated by a ``/'' 
+                        representing the stoichiometric ratio.
+                        A ``/-'' or ``/+'' followed by a digit means a negative
+                      or positive electric charge.  If no digit 1 is assumed.\\
+%                        See section~\ref{sc:lettercase}.\\
+                      & MQMQA     & For a constituent in the MQMQA model.\\
+%                      See section~\ref{sc:MQMQA}.\\
+                  & UNIQUAC   & For a constituent in the UNIQUAC model.\\\hline
+%                      See section~\ref{sc:UNIQUAC}.\\\hline
+
+\end{tabular}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{The phase tag.  All data belong to a phase.}
+\begin{tabular}{|p{0.04\textwidth} p{0.18\textwidth} p{0.78\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
+
+  Phase & & All thermodynamic data is part of a phase.\\
+!M       & Id & Phase name, special rules apply.\\
+%  see sections~\ref{sc:lettercase} and \ref{sc:phaseID}. \\
+
+!M       & Configuration &  Model for the configurational entropy. \\
+%               see section~\ref{sc:config}.\\
+
+         & State & Needed if EEC is used.\\\hline
+%            see section~\ref{sc:eec}.\\\hline
+
+CrystalStructure & & Optional inside a {\bf Phase} tag.\\
+               & Prototype & Prototype phase \\
+               & StrukturBericht & For example A3, B2, C14, D0\_3 etc.\\
+               & PearsonSymbol & For example hR21 cI2.\\
+               & SpaceGroup & For example 127, 166.\\\hline
+
+  Sublattices & & Only once inside a {\bf Phase} tag.\\
+!M        & NumberOf &  Number of sublattices, an integer value $>0$. \\
+!M        & Multiplicities & One real value$>0$ for each sublattice. \\\hline
+%               See~\ref{sc:alcexample}\\\hline
+
+  Constituents & & Only inside the {\bf Sublattices} tag.\\
+             & Sublattice & Can be omitted if only one sublattice.\\
+
+             & WyckoffPosition & Optinonal specification.\\
+
+  !M           & List &  Species {\em Id} separated by a space.\\\hline
+% see section~\ref{sc:constituents}.\\\hline
+
+  AmendPhase & & Optional tag inside a {\bf Phase} tag to specify a contribution
+               from a physical model.\\
+% see section~\ref{sc:phymod}, \ref{sc:modeltags} and \ref{sc:alcexample}.\\
+     & Models & One or more model {\em Id}s, separated by a space. \\
+
+           & & There can be an {\bf DisorderedPart} tag inside this tag.\\\hline
+
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{The function tag.  Use the {\bf Trange} tag if several $T$ ranges, no provision for breakpoints in $P$.}
+
+\begin{tabular}{|p{0.06\textwidth} p{0.10\textwidth} p{0.8\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
+
+  TPfun & & Defines a $T, P$ expression to be used in parameters or other functions.\\
+  
+!M        & Id & The {\em Id} can be used in the
+                 {\em Expr} attribute of other functions or parameters. \\
+%                see section~\ref{sc:lettercase}.  \\
+
+        & LowT & Can be omitted if the default low $T$ limit applies.\\
+                 !M       & Expr &  Simple mathematical expression, possibly terminated by ``;''.\\
+% See section~\ref{sc:tpexpr}.  Use the {\bf Trange} tag if several ranges.\\
+           
+        & HighT & Can be omitted the default high $T$ limit applies.\\\hline
+
+  Trange & & Only inside a {\bf TPfun} or {\bf Parameter} tag for an
+             expression with several $T$ ranges.  The function and
+             its first and second derivative must be continous.\\
+
+!M & Expr & Simple mathematical expression possibly terminated by ``;''.\\
+%             See section~\ref{sc:tpexpr}.\\
+
+   & HighT & Can be omitted if the default high $T$ limit applies.\\\hline
+\end{tabular}
+
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{The parameter tag.  These tags the central part of an XTDB
+    database.  The very compact form used in TDB files is
+    retained.}\label{sc:partag}
+
+\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
+
+  Parameter & & Specifies the $T, P$ expression of a model parameter for a set of constituents of a phase.\\
+  !M      & Id & As in a TDB file. \\
+% See section~\ref{sc:param}\\
+
+      & LowT & Can be omitted if the default low $T$ limit applies.\\
+!M      & Expr & Simple mathematical expression possibly terminated by ``;''.
+      If several ranges use a {\bf Trange} tag.  \\
+% See section~\ref{sc:tpexpr}.\\
+      & HighT & Can be omitted if the default high $T$ limit applies.\\
+!M      & Bibref & Bibliographic reference.\\\hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{The bibliography for parameters}
+\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+  Tag & Attributes &  Explanation\\\hline
+
+  Bibliography & & Contains bibliographic references.
+                   There are no attributes.\\\hline
+
+  Bibitem & & Only inside a {\bf Bibliography} tag.\\
+!M      & Id &   Used as value in the {\em bibref} attribute for a parameter
+            or model, normally a paper or a comment by the database manager.\\
+!M      & Text & Reference to a paper or comment.\\
+       & DOI & DOI of paper where the parameter was assessed.\\\hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{The tags for current TDB models}\label{sc:models1}
+\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
+
+  ModelDescriptions & & Contains model tags usually with an {\em Id}
+           attribute used in {\bf AmendPhase} tags inside a {\bf Phase} tag.
+           Most models have one or more model parameter identifiers (MPID).\\
+!M       & Software & Name of software using these models.  \\\hline
+
+  Magnetic & & There are several magnetic models. \\
+%           See section~\ref{sc:magmod}.\\
+!M      & Id & This is used in {\em Models} attribute of the 
+               {\bf AmendPhase} tag.  There are 3 variants:
+               IHJBCC, IHJREST and IHJQX,\\
+      & Aff   & The antiferromagnetic factor (-1, -3 or 0).\\
+
+!M      & MPID1 & Specifies the Bohr magneton number MPID \\
+!M      & MPID2 & Specifies a Curie or combined Curie/Neel temperature MPID\\
+        & MPID3 & Specifies a Neel temperature MPID for IHJQX\\
+!M      & Bibref & Where the model is described.\\\hline
+
+ Permutations & & For FCC, HCP and BCC lattices a 4 sublattice tetrahedron
+                     model. \\
+% See section~\ref{sc:permut}.\\
+!M     & Id & This is used in the {\em Models} attribute of the
+                {\bf AmendPhase} tag.  Its can be either FCC4PERM or BCC4PERM.\\
+!M     & Bibref & Where the model is explained.\\\hline
+
+DisorderedPart & & Optional tag inside the {\bf AmendPhase} tag of an 
+              ordered phase with or without order/disorder. \\
+%              See section~\ref{sc:dispart}.\\
+
+  & Disordered & Optional attribute with the {\em Id} of the disordered phase.\\
+
+!M & Sum  & Number of sublattices in the ordered phase. \\
+%  in eq.~\ref{eq:aver}.\\
+
+   & Subtract & Must be ``Y'' if ordered part is complete.\\
+% if eq.~\ref{eq:sub} in section~\ref{sc:dispart} should be used.\\
+!M & Bibref & Where the model is described.\\\hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{The tags for the new unary database}
+\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
+
+  Einstein & & The low $T$ vibrational model.\\
+% see section~\ref{sc:einstein}.\\
+!M      & Id & This Id is used in {\bf AmendPhase} tag.\\
+!M      & MPID1 & Specifies the MPID for the Einstein $\theta$.\\
+!M      & Bibref & Where the model is described.\\\hline
+
+  Liquid2state & & The liquid 2-state model.\\
+% see section~\ref{sc:liquid2state}.\\
+!M      & Id & This Id is used in {\bf AmendPhase} tag.\\
+!M      & MPID1 & Specifies the MPID for the 2-state transition energy. \\
+!M      & MPID2 & Specifies the MPID for the Einstein $\theta$
+                   for the low $T$ extrapolation.\\
+!M      & Bibref & Where the model is described.\\\hline
+
+  EEC & & Specifies that the Equi-entropy model applies to the whole database.\\
+%          See section~\ref{sc:eec}.  The liquid {\bf Phase} tag must 
+%          also have the {\em State} attribute equal to L. \\
+!M      & Id     & has the value EEC.\\
+!M      & Bibref & Where the model is described.\\\hline
+
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[!h]
+  \caption{Miscellaneous tags}
+\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+  Tag & Attributes & Explanation\\\hline
+
+  TernaryXpol & & The extrapolation method for a ternary.\\
+%                  See section~\ref{sc:terxpol}.\\
+!M      & Phase & The {\em Id} of a phase.\\
+!M      & Constituents & The {\em Id}s of 3 {\bf Species}  that are 
+           constituents of the phase.\\
+!M      & Xpol & The type of extrapolations, for example KKK if
+           the Kohler method is used for all 3 binaries. \\
+!M      & Bibref & Where the model is described.\\\hline
+
+BinarySystem & & Optional tag for a database manager to surround
+                a set of model parameters for a binary system.
+                It can be used to list which assessed systems
+                that are present in the database. \\
+!M & System & The {\em Id}s of the two {\bf Element}s inside this tag.\\
+   & CalcDia & Software dependent way to calculate the binary system\\\hline
+
+\end{tabular}
+\end{table}
+
+\newpage
+
+\begin{table}[!h]
+  \caption{Summary of all tags}
+%\begin{tabular}{|p{0.06\textwidth} p{0.15\textwidth} p{0.8\textwidth}|}\hline
+\begin{tabular}{|p{0.21\textwidth} p{0.8\textwidth}|}\hline
+  Tag        & Use \\\hline
+  XTDB       &  Must start an XTDB file.\\
+  Defaults   &  Optional default values.\\
+  DatabaseInfo  & Optional database information.\\
+  AppendXTDB &  Optional extra XTDB files for a large database.\\
+  Element    &  Element data.\\
+  Species    &  Species data.  Species are constituents of phases.\\
+  Phase      &  Phase data, constituents and models.\\
+  CrystalStructure  & Optional inside a {\bf Phase} tag.\\
+  Sublattices & Only once inside a {\bf Phase} tag.\\
+  Constituents  & Only inside a {\bf Sublattices} tag. \\ %10
+  AmendPhase &  Only once inside a {\bf Phase} tag.\\
+  TPfun      &  Specifies Id and expression. \\
+  Trange     &  Inside a {\bf TPfun} tag.\\
+  Parameter  &  Parameter identification and expression. \\
+  Bibliography  & Surrounds parameter bibliograpy. \\
+  Bibitem       & Bibliographic reference for a {\bf Parameter}.\\
+  ModelDescriptions  & Surrounds model definition tags.\\
+  Magnetic    & Specifies Id and MPID for a magnetic model for a phase.\\
+  Permutation & Specifies Id for a permutation model for a phase.\\
+  DisorderedPart & Optional specification of a phase with a disordred part.\\%20
+  Einstein      & Specifies Id and MPID for the Einstein model.\\
+  Liquid2State  & Specifies Id and MPID for the Liquid 2-state model.\\
+  EEC           & Specifies Id for the Equal Entropi Criterium model.\\
+  TernaryXpol   & Specifies a extrapolation model for a ternary.\\
+  BinarySystem  & Optional specification for an assessed binary.\\\hline %25
+  \end{tabular}
+\end{table}
+
+%\end{appendix}
+
+\end{document}
+
