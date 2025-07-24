@@ -1,0 +1,17 @@
+Typographical corrections for
+
+XTDB, an XML based format for Calphad databases
+https://doi.org/10.1016/j.calphad.2025.102849
+
+
+
+page 1: affiliation of Ursula Kattner is
+MSED National Institute of Standards and Technology, Gaithersburg, MD, USA
+
+page 3: Eq.(7) missing -R before first summation
+
+page 4: Frame with line <Phase Id="FCC_4SL" ... /> missing /
+
+
+
+
